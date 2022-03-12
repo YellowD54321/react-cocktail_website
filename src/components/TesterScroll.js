@@ -1,5 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 function TesterScroll() {
+  const container = useRef(null);
+  const container1 = useRef(null);
+  const viewRegion = useRef(null);
+  const scrollingElRef = useRef(null);
+  const [scrollPercent, setScrollPercent] = useState(0);
   let oldFasionImages = {
     bitter: {
       images: [],
@@ -46,25 +51,77 @@ function TesterScroll() {
     container8: oldFasionImages.peel.images[0],
     container9: oldFasionImages.finish.images[0],
   });
-  let testImg = oldFasionImages.sugarCube.images[0];
-  const containerSwitchPoint = {
-    container1to2: 1800,
-    container2to3: 50000,
-    container3to4: 50000,
-    container4to5: 50000,
-    container5to6: 50000,
-    container6to7: 50000,
-  };
-  let scroll100 = 0;
+  // const containerSwitchPoint = {
+  //   container1to2: 18 * scrollVhStep,
+  //   container2to3: 50000,
+  //   container3to4: 50000,
+  //   container4to5: 50000,
+  //   container5to6: 50000,
+  //   container6to7: 50000,
+  // };
 
-  const [scrollPosition, setScrollPosition] = useState(0);
+  function loadImageListFromEachFolder(imgObject) {
+    for (const [key, imageName] of Object.entries(imgObject)) {
+      for (let i = 1; i <= imageName.amount; i++) {
+        imageName.images.push(`../images/cocktail-${key}/${key}-${i}.png`);
+      }
+    }
+  }
+
   const handleScroll = () => {
-    const position = window.pageYOffset;
-    setScrollPosition(position);
+    if (container1 && container1.current && viewRegion && viewRegion.current) {
+      const containerRect = container1.current.getBoundingClientRect();
+      const selfRect = viewRegion.current.getBoundingClientRect();
+      const offTop = containerRect.y - selfRect.y;
+      const top = containerRect.y + selfRect.height / 2;
+      const bottom =
+        containerRect.y + containerRect.height - selfRect.height / 2;
+      const selfRectOriginalY = selfRect.y + selfRect.height / 2;
+
+      console.log("top");
+      console.log(top);
+      console.log("bottom");
+      console.log(bottom);
+      console.log("selfRectOriginalY");
+      console.log(selfRectOriginalY);
+
+      // console.log("scrollingElRef");
+      // console.log(scrollingElRef);
+      // console.log("scrollingElRef?.clientHeight ");
+      // console.log(scrollingElRef?.current?.clientHeight);
+
+      // console.log("containerRect.y");
+      // console.log(containerRect.y);
+      // console.log("selfRect.y");
+      // console.log(selfRect.y);
+      // console.log("containerRect.height");
+      // console.log(containerRect.height);
+      // console.log("selfRect.height");
+      // console.log(selfRect.height);
+      // console.log("offTop");
+      // console.log(offTop);
+
+      // if (containerRect.height < selfRect.height) {
+      //   const viewHeight = selfRect.height - containerRect.height;
+      //   const result = offTop / viewHeight;
+      //   console.log("viewHeight");
+      //   console.log(viewHeight);
+      //   console.log("result");
+      //   console.log(result);
+      //   setScrollPercent(result);
+      // } else {
+      // const viewHeight = containerRect.height;
+      // const result = offTop < 0 ? offTop / viewHeight : offTop / viewHeight + 1;
+      const result = (selfRectOriginalY - top) / (bottom - top);
+      // console.log(viewHeight);
+      console.log("result");
+      console.log(result);
+      setScrollPercent(result);
+      // }
+    }
   };
 
   useEffect(() => {
-    console.log("Inside useeffect");
     window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
@@ -73,7 +130,8 @@ function TesterScroll() {
   }, []);
 
   useEffect(() => {
-    console.log(scrollPosition);
+    console.log("scrollPercent");
+    console.log(scrollPercent);
     let allFeatures = {
       containerOneFeatureOne: {
         content: document.getElementById("container-1-feature-1"),
@@ -86,119 +144,57 @@ function TesterScroll() {
       containerOneFeatureTwo: {
         content: document.getElementById("container-1-feature-2"),
         scrollPoint: {
-          demarcation: 500,
-          scrollUp: 200,
-          scrollDown: 900,
+          demarcation: 0.21,
+          scrollUp: 0.16,
+          scrollDown: 0.37,
         },
       },
       containerOneFeatureThree: {
         content: document.getElementById("container-1-feature-3"),
         scrollPoint: {
-          demarcation: 1200,
-          scrollUp: 900,
-          scrollDown: 1600,
+          demarcation: 0.54,
+          scrollUp: 0.43,
+          scrollDown: 0.7,
         },
       },
     };
-    let allGifImages = {
-      containerOne: {
-        content: document.getElementById("container-1-img"),
-        scrollPoint: {
-          demarcation: 1300,
-          scrollUp: 1300,
-          scrollDown: 1600,
-        },
-      },
-    };
-
-    // if (scrollPosition % 100 === 0) {
-    //   console.log(scrollPosition);
-    scroll100 = scrollPosition;
-    // console.log(`Now scroll100 is setting.`);
-    //switch gif images
-    if (scrollPosition < containerSwitchPoint.container1to2) {
-      // setCurrentGifImage((preImg) => ({
-      //   ...preImg,
-      //   container1: oldFasionImages.finish.images[0],
-      // }));
-    } else if (scrollPosition < containerSwitchPoint.container2to3) {
-      setCurrentGifImage((preImg) => ({
-        ...preImg,
-        container2:
-          oldFasionImages.sugarCube.images[
-            Math.floor(
-              (scrollPosition - containerSwitchPoint.container1to2) / 100
-            )
-          ],
-      }));
-      // testImg =
-      //   oldFasionImages.sugarCube.images[
-      //     Math.floor(
-      //       (scrollPosition - containerSwitchPoint.container1to2) / 100
-      //     )
-      //   ];
-    } else if (scrollPosition < containerSwitchPoint.container3to4) {
-    } else if (scrollPosition < containerSwitchPoint.container4to5) {
-    } else if (scrollPosition < containerSwitchPoint.container5to6) {
-    } else if (scrollPosition < containerSwitchPoint.container6to7) {
-    }
-
     for (const [featrueName, featureValue] of Object.entries(allFeatures)) {
       //control opacity when scrolling up or down
       if (!featureValue.scrollPoint.demarcation) continue;
-      if (scrollPosition < featureValue.scrollPoint.demarcation) {
+      if (scrollPercent < featureValue.scrollPoint.demarcation) {
         //opacity increasing
         featureValue.content.style.opacity =
-          (scrollPosition - featureValue.scrollPoint.scrollUp) * 0.005;
+          (scrollPercent - (featureValue.scrollPoint.demarcation - 0.1)) * 4;
+        // featureValue.content.style.opacity = 0;
+      } else if (scrollPercent < featureValue.scrollPoint.demarcation + 0.1) {
+        featureValue.content.style.opacity = 1;
       } else {
         //opacity decreasing
+        // featureValue.content.style.opacity =
+        //   -(scrollPercent - featureValue.scrollPoint.scrollDown) * 0.0025;
+        console.log("(featureValue.scrollPoint.demarcation + 0.2)");
+        console.log(featureValue.scrollPoint.demarcation + 0.2);
+        console.log(
+          "scrollPercent - (featureValue.scrollPoint.demarcation + 0.2)"
+        );
+        console.log(featureValue.scrollPoint.demarcation + 0.2 - scrollPercent);
         featureValue.content.style.opacity =
-          -(scrollPosition - featureValue.scrollPoint.scrollDown) * 0.0025;
+          (featureValue.scrollPoint.demarcation + 0.2 - scrollPercent) * 4;
       }
     }
-    //finisded image effect
-    const gifImg1_end_startPoint =
-      allGifImages.containerOne.scrollPoint.demarcation;
-    const gifImg1_end_endPoint = containerSwitchPoint.container1to2;
-    const gifImg1_scrollTime = 5;
-    if (scrollPosition >= gifImg1_end_startPoint) {
-      //after switch point, let img1 become opacity = 0.
-      if (scrollPosition >= gifImg1_end_endPoint) {
-        allGifImages.containerOne.content.style.transform = "scale(2, 2)";
-        allGifImages.containerOne.content.style.opacity = 0;
-      } else {
-        //before switch point, set scale be increasing and opacity decreasing.
-        const gifImg1_scale =
-          1 +
-          ((scrollPosition - gifImg1_end_startPoint) / 100) *
-            (1 / gifImg1_scrollTime);
-        const gifImg1_opacity =
-          1 -
-          ((scrollPosition - gifImg1_end_startPoint) / 100) *
-            (1 / gifImg1_scrollTime);
-        allGifImages.containerOne.content.style.transform = `scale(${gifImg1_scale}, ${gifImg1_scale})`;
-        allGifImages.containerOne.content.style.opacity = gifImg1_opacity;
-      }
-    }
-    // }
-  }, [scrollPosition]);
+  }, [scrollPercent]);
 
-  function loadImageListFromEachFolder(imgObject) {
-    for (const [key, imageName] of Object.entries(imgObject)) {
-      for (let i = 1; i <= imageName.amount; i++) {
-        imageName.images.push(`../images/cocktail-${key}/${key}-${i}.png`);
-      }
-    }
-  }
   return (
-    <main>
-      <section className="container container-1">
-        <img
-          id="container-1-img"
-          className="main-page-gif-image"
-          src={currentGifImage.container1}
-          alt=""
-        />
+    <main className="scroll-view" ref={container}>
+      <section ref={container1} className="container container-1">
+        <div className="view-region" ref={viewRegion}>
+          <img
+            id="container-1-img"
+            className="main-page-gif-image"
+            src={currentGifImage.container1}
+            alt=""
+          />
+        </div>
         <h2 id="container-1-feature-1" className="container-1-feature">
           Old Fasion
         </h2>
@@ -211,21 +207,22 @@ function TesterScroll() {
       </section>
       <section className="container container-2">
         <img
+          id="container-2-img-1"
           className="main-page-gif-image"
           src={currentGifImage.container2}
           alt=""
         />
-        <h2 id="container-1-feature-1" className="container-1-feature">
+        <h2 id="container-2-feature-1" className="container-2-feature">
           Old Fasion
         </h2>
       </section>
-      <section className="container container-2">
+      <section className="container container-3">
         <img
           className="main-page-gif-image"
           src={currentGifImage.container3}
           alt=""
         />
-        <h2 id="container-1-feature-1" className="container-1-feature">
+        <h2 id="container-3-feature-1" className="container-3-feature">
           Old Fasion
         </h2>
       </section>

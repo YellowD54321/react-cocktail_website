@@ -35,8 +35,8 @@ function MainPage() {
       amount: 23,
     },
   };
-  console.log("window.innerHeight");
-  console.log(window.innerHeight);
+  // console.log("window.innerHeight");
+  // console.log(window.innerHeight);
   loadImageListFromEachFolder(oldFasionImages);
   const [currentGifImage, setCurrentGifImage] = useState({
     container1: oldFasionImages.finish.images[0],
@@ -50,7 +50,7 @@ function MainPage() {
     container9: oldFasionImages.finish.images[0],
   });
   const containerSwitchPoint = {
-    container1to2: 1700,
+    container1to2: 18 * scrollVhStep,
     container2to3: 50000,
     container3to4: 50000,
     container4to5: 50000,
@@ -58,11 +58,45 @@ function MainPage() {
     container6to7: 50000,
   };
 
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const [scrollPositionTest, setScrollPosition] = useState(0);
   const handleScroll = () => {
     const position = window.pageYOffset;
     setScrollPosition(position);
   };
+  // const testerContainer = document.getElementById("container-1");
+  const [testerContainer, setTesterContainer] = useState(null);
+  console.log("testerContainer");
+  console.log(testerContainer);
+  useEffect(() => {
+    console.log("useEffect triggered");
+    // console.log(event.target);
+    if (testerContainer) {
+      testerContainer.addEventListener("scroll", (event) => {
+        return scrolling(event.target);
+      });
+      scrolling(testerContainer);
+    }
+
+    return () => {
+      console.log("useEffect closed");
+      return testerContainer?.removeEventListener("scroll", scrolling);
+    };
+  }, [testerContainer]);
+
+  function scrolling(container) {
+    console.log(container);
+  }
+
+  function scrollingElRef(ref) {
+    console.log("ref");
+    console.log(ref);
+    if (ref) {
+      console.log("ref.current");
+      console.log(ref.current);
+    }
+
+    setTesterContainer(ref);
+  }
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -73,7 +107,8 @@ function MainPage() {
   }, []);
 
   useEffect(() => {
-    console.log(scrollPosition);
+    let scrollPositionVh = (scrollPositionTest / 100) * scrollVhStep;
+    // console.log(scrollPositionVh);
     let allFeatures = {
       containerOneFeatureOne: {
         content: document.getElementById("container-1-feature-1"),
@@ -86,17 +121,17 @@ function MainPage() {
       containerOneFeatureTwo: {
         content: document.getElementById("container-1-feature-2"),
         scrollPoint: {
-          demarcation: 500,
-          scrollUp: 200,
-          scrollDown: 900,
+          demarcation: 7 * scrollVhStep,
+          scrollUp: 3 * scrollVhStep,
+          scrollDown: 10 * scrollVhStep,
         },
       },
       containerOneFeatureThree: {
         content: document.getElementById("container-1-feature-3"),
         scrollPoint: {
-          demarcation: 1200,
-          scrollUp: 900,
-          scrollDown: 1600,
+          demarcation: 14 * scrollVhStep,
+          scrollUp: 10 * scrollVhStep,
+          scrollDown: 17 * scrollVhStep,
         },
       },
     };
@@ -104,46 +139,46 @@ function MainPage() {
       containerOne: {
         content: document.getElementById("container-1-img"),
         scrollPoint: {
-          demarcation: 1300,
-          scrollUp: 1300,
-          scrollDown: 1600,
+          demarcation: 14 * scrollVhStep,
+          scrollUp: 14 * scrollVhStep,
+          scrollDown: 17 * scrollVhStep,
         },
       },
     };
 
     //switch gif images
-    if (scrollPosition < containerSwitchPoint.container1to2) {
+    if (scrollPositionVh < containerSwitchPoint.container1to2) {
       setCurrentGifImage((preImg) => ({
         ...preImg,
         container1: oldFasionImages.finish.images[0],
       }));
-    } else if (scrollPosition < containerSwitchPoint.container2to3) {
+    } else if (scrollPositionVh < containerSwitchPoint.container2to3) {
       setCurrentGifImage((preImg) => ({
         ...preImg,
         container2:
           oldFasionImages.sugarCube.images[
             Math.floor(
-              (scrollPosition - containerSwitchPoint.container1to2) / 100
+              (scrollPositionVh - containerSwitchPoint.container1to2) / 100
             )
           ],
       }));
-    } else if (scrollPosition < containerSwitchPoint.container3to4) {
-    } else if (scrollPosition < containerSwitchPoint.container4to5) {
-    } else if (scrollPosition < containerSwitchPoint.container5to6) {
-    } else if (scrollPosition < containerSwitchPoint.container6to7) {
+    } else if (scrollPositionVh < containerSwitchPoint.container3to4) {
+    } else if (scrollPositionVh < containerSwitchPoint.container4to5) {
+    } else if (scrollPositionVh < containerSwitchPoint.container5to6) {
+    } else if (scrollPositionVh < containerSwitchPoint.container6to7) {
     }
 
     for (const [featrueName, featureValue] of Object.entries(allFeatures)) {
       //control opacity when scrolling up or down
       if (!featureValue.scrollPoint.demarcation) continue;
-      if (scrollPosition < featureValue.scrollPoint.demarcation) {
+      if (scrollPositionVh < featureValue.scrollPoint.demarcation) {
         //opacity increasing
         featureValue.content.style.opacity =
-          (scrollPosition - featureValue.scrollPoint.scrollUp) * 0.005;
+          (scrollPositionVh - featureValue.scrollPoint.scrollUp) * 0.005;
       } else {
         //opacity decreasing
         featureValue.content.style.opacity =
-          -(scrollPosition - featureValue.scrollPoint.scrollDown) * 0.0025;
+          -(scrollPositionVh - featureValue.scrollPoint.scrollDown) * 0.0025;
       }
     }
     //finisded image effect
@@ -151,26 +186,26 @@ function MainPage() {
       allGifImages.containerOne.scrollPoint.demarcation;
     const gifImg1_end_endPoint = containerSwitchPoint.container1to2;
     const gifImg1_scrollTime = 5;
-    if (scrollPosition >= gifImg1_end_startPoint) {
+    if (scrollPositionVh >= gifImg1_end_startPoint) {
       //after switch point, let img1 become opacity = 0.
-      if (scrollPosition >= gifImg1_end_endPoint) {
+      if (scrollPositionVh >= gifImg1_end_endPoint) {
         allGifImages.containerOne.content.style.transform = "scale(2, 2)";
         allGifImages.containerOne.content.style.opacity = 0;
       } else {
         //before switch point, set scale be increasing and opacity decreasing.
         const gifImg1_scale =
           1 +
-          ((scrollPosition - gifImg1_end_startPoint) / 100) *
+          ((scrollPositionVh - gifImg1_end_startPoint) / scrollVhStep) *
             (1 / gifImg1_scrollTime);
         const gifImg1_opacity =
           1 -
-          ((scrollPosition - gifImg1_end_startPoint) / 100) *
+          ((scrollPositionVh - gifImg1_end_startPoint) / scrollVhStep) *
             (1 / gifImg1_scrollTime);
         allGifImages.containerOne.content.style.transform = `scale(${gifImg1_scale}, ${gifImg1_scale})`;
         allGifImages.containerOne.content.style.opacity = gifImg1_opacity;
       }
     }
-  }, [scrollPosition]);
+  }, [scrollPositionTest]);
 
   function loadImageListFromEachFolder(imgObject) {
     for (const [key, imageName] of Object.entries(imgObject)) {
@@ -181,7 +216,7 @@ function MainPage() {
   }
   return (
     <main>
-      <section className="container container-1">
+      <section ref={scrollingElRef} className="container container-1">
         <img
           id="container-1-img"
           className="main-page-gif-image"
