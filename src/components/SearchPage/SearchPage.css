@@ -1,0 +1,23 @@
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px pink solid;
+}
+
+.search-result-region {
+    width: 70vw;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    /* border: 1px white solid; */
+}
+
+.search-result-cocktail-img {
+    width: 200px;
+    padding: 10px;
+}
+
+.search-result-cocktail-name {
+    margin-top: 30px;
+}

@@ -1,4 +1,29 @@
+import React, { useRef } from "react";
+import { useStateValue } from "../Reducer/StateProvider";
+import "./Header.css";
 function Header() {
+  const searchBarRef = useRef("");
+  const [{ searchText, searchBtnCount }, dispatch] = useStateValue();
+
+  const startSearching = () => {
+    const searchInput = searchBarRef?.current?.value;
+    const btnCounter = searchBtnCount >= 0 ? searchBtnCount + 1 : 0;
+
+    dispatch({
+      type: "SEARCH_TEXT",
+      item: {
+        text: searchInput,
+        btnCounter: btnCounter,
+      },
+    });
+  };
+
+  function searchBarOnKeyUp(event) {
+    if (event.key === "Enter") {
+      startSearching();
+    }
+  }
+
   return (
     <header>
       <div className="header-left">
@@ -9,11 +34,18 @@ function Header() {
         />
       </div>
       <div className="header-middle">
-        <input className="header-search-bar" type="text" placeholder="search" />
+        <input
+          className="header-search-bar"
+          type="text"
+          placeholder="search by name"
+          ref={searchBarRef}
+          onKeyUp={searchBarOnKeyUp}
+        />
         <img
           className="header-search-bar-img"
           src="../images/icons/search-icon.png"
           alt=""
+          onClick={startSearching}
         />
         <a className="header-random-cocktail" href="#">
           <img

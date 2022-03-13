@@ -63,40 +63,6 @@ function MainPage() {
     const position = window.pageYOffset;
     setScrollPosition(position);
   };
-  // const testerContainer = document.getElementById("container-1");
-  const [testerContainer, setTesterContainer] = useState(null);
-  console.log("testerContainer");
-  console.log(testerContainer);
-  useEffect(() => {
-    console.log("useEffect triggered");
-    // console.log(event.target);
-    if (testerContainer) {
-      testerContainer.addEventListener("scroll", (event) => {
-        return scrolling(event.target);
-      });
-      scrolling(testerContainer);
-    }
-
-    return () => {
-      console.log("useEffect closed");
-      return testerContainer?.removeEventListener("scroll", scrolling);
-    };
-  }, [testerContainer]);
-
-  function scrolling(container) {
-    console.log(container);
-  }
-
-  function scrollingElRef(ref) {
-    console.log("ref");
-    console.log(ref);
-    if (ref) {
-      console.log("ref.current");
-      console.log(ref.current);
-    }
-
-    setTesterContainer(ref);
-  }
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -216,7 +182,7 @@ function MainPage() {
   }
   return (
     <main>
-      <section ref={scrollingElRef} className="container container-1">
+      <section /* ref={scrollingElRef} */ className="container container-1">
         <img
           id="container-1-img"
           className="main-page-gif-image"

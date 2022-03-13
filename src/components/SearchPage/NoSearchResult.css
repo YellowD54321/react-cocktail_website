@@ -1,0 +1,47 @@
+.no-result-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+
+.no-result-information {
+    display: flex;
+    align-items: center;
+}
+
+.no-result-gif {
+    width: 200px;
+    height: 100%;
+    margin-right: 30px;
+}
+
+.no-result-try-random {
+    background-color: #141412;
+    padding: 10px 100%;
+    width: 100%;
+    text-align: center;
+}
+
+.no-result-random {
+    background-color: #141412;
+    padding: 10px 100%;
+    width: 100%;
+
+}
+
+.no-result-information-text > h2 {
+    font-size: 3rem;
+}
+
+.no-result-information-text > p {
+    font-size: 1.5rem;
+}
+
+.no-result-try-random > h3 {
+    font-size: 2rem;
+}
+
+.no-result-try-random > p {
+    font-size: 1.5rem;
+}
