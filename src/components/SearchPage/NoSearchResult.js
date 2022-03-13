@@ -14,8 +14,11 @@ function NoSearchResult(props) {
     category: "",
     drinkId: "",
   });
-  //   const searchText = props.searchText;
-  const lookingForGif =
+
+  const getDataFromAPI = props.getDataFromAPI;
+  const getCocktailInfo = props.getCocktailInfo;
+
+  const lookingForGifUrl =
     `https://api.giphy.com/v1/gifs/random?` +
     `api_key=kJ68eSnr74nFdRH0lw4cw4VGAzOpajnB&tag` +
     `=looking+for&rating=g`;
@@ -23,57 +26,36 @@ function NoSearchResult(props) {
   let randomCocktail = null;
 
   useEffect(() => {
-    async function getGifFromAPI(apiUrl) {
-      try {
-        const url = apiUrl;
-        const res = await fetch(url);
-        const data = await res.json();
-        return data;
-      } catch (err) {
-        console.log("Error happens from Gif API:");
-        console.error(err);
+    getDataFromAPI(lookingForGifUrl).then((data) => {
+      if (!data) {
+        console.log("There is no result from Gif API.");
+        return false;
       }
-    }
-    getGifFromAPI(lookingForGif).then((data) => {
       setGifImgUrl(data.data.images.original.url);
     });
 
-    getGifFromAPI(randomCocktailUrl).then((data) => {
-      const drink = data.drinks[0];
-      let ingredients = [];
-      const reslut = {
-        image: drink.strDrinkThumb,
-        name: drink.strDrink,
-        ingredients: (() => {
-          for (let j = 1; j <= 15; j++) {
-            const ingredientName = "strIngredient" + j.toString();
-            const ingredientAmount = "strMeasure" + j.toString();
-            if (!drink[ingredientName]) break;
-            ingredients.push({
-              ingredient: drink[ingredientName],
-              amount: drink[ingredientAmount],
-            });
-          }
-          return ingredients;
-        })(),
-        glass: drink.strGlass,
-        instruction: drink.strInstructions,
-        category: drink.strCategory,
-        drinkId: drink.idDrink,
-      };
-      setCocktail(reslut);
+    getDataFromAPI(randomCocktailUrl).then((data) => {
+      const drinks = data.drinks;
+      if (!drinks) {
+        console.log("There is no result from cocktail API.");
+        return false;
+      }
+      const cocktailInfo = getCocktailInfo(drinks);
+      setCocktail(cocktailInfo);
     });
   }, [searchBtnCount]);
-  if (cocktail.name) {
+
+  if (cocktail[0]?.name) {
     randomCocktail = (
       <SearchResult
-        key={cocktail.drinkId}
-        {...cocktail}
-        cocktail={cocktail}
+        key={cocktail[0].drinkId}
+        {...cocktail[0]}
+        cocktail={cocktail[0]}
         index={0}
       />
     );
   }
+
   return (
     <div className="no-result-main">
       <div className="no-result-information">
@@ -85,12 +67,11 @@ function NoSearchResult(props) {
         <div className="no-result-information-text">
           <h2>Oops!</h2>
           <p>{`There is no result for "${searchText}".`}</p>
-          <p>We can blame on the API together.</p>
+          <p>I'm feeling sad too.</p>
         </div>
       </div>
       <div className="no-result-try-random">
-        <h3>Or</h3>
-        <p>Let's try a random one?</p>
+        <p>Here's a random one for you!</p>
       </div>
       <div className="no-result-random">{randomCocktail}</div>
     </div>
