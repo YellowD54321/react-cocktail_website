@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 function TesterScroll() {
-  const container = useRef(null);
   const container1 = useRef(null);
   const viewRegion = useRef(null);
-  const scrollingElRef = useRef(null);
   const [scrollPercent, setScrollPercent] = useState(0);
   let oldFasionImages = {
     bitter: {
@@ -51,14 +49,6 @@ function TesterScroll() {
     container8: oldFasionImages.peel.images[0],
     container9: oldFasionImages.finish.images[0],
   });
-  // const containerSwitchPoint = {
-  //   container1to2: 18 * scrollVhStep,
-  //   container2to3: 50000,
-  //   container3to4: 50000,
-  //   container4to5: 50000,
-  //   container5to6: 50000,
-  //   container6to7: 50000,
-  // };
 
   function loadImageListFromEachFolder(imgObject) {
     for (const [key, imageName] of Object.entries(imgObject)) {
@@ -72,52 +62,12 @@ function TesterScroll() {
     if (container1 && container1.current && viewRegion && viewRegion.current) {
       const containerRect = container1.current.getBoundingClientRect();
       const selfRect = viewRegion.current.getBoundingClientRect();
-      const offTop = containerRect.y - selfRect.y;
       const top = containerRect.y + selfRect.height / 2;
       const bottom =
         containerRect.y + containerRect.height - selfRect.height / 2;
       const selfRectOriginalY = selfRect.y + selfRect.height / 2;
-
-      console.log("top");
-      console.log(top);
-      console.log("bottom");
-      console.log(bottom);
-      console.log("selfRectOriginalY");
-      console.log(selfRectOriginalY);
-
-      // console.log("scrollingElRef");
-      // console.log(scrollingElRef);
-      // console.log("scrollingElRef?.clientHeight ");
-      // console.log(scrollingElRef?.current?.clientHeight);
-
-      // console.log("containerRect.y");
-      // console.log(containerRect.y);
-      // console.log("selfRect.y");
-      // console.log(selfRect.y);
-      // console.log("containerRect.height");
-      // console.log(containerRect.height);
-      // console.log("selfRect.height");
-      // console.log(selfRect.height);
-      // console.log("offTop");
-      // console.log(offTop);
-
-      // if (containerRect.height < selfRect.height) {
-      //   const viewHeight = selfRect.height - containerRect.height;
-      //   const result = offTop / viewHeight;
-      //   console.log("viewHeight");
-      //   console.log(viewHeight);
-      //   console.log("result");
-      //   console.log(result);
-      //   setScrollPercent(result);
-      // } else {
-      // const viewHeight = containerRect.height;
-      // const result = offTop < 0 ? offTop / viewHeight : offTop / viewHeight + 1;
       const result = (selfRectOriginalY - top) / (bottom - top);
-      // console.log(viewHeight);
-      console.log("result");
-      console.log(result);
       setScrollPercent(result);
-      // }
     }
   };
 
@@ -137,27 +87,29 @@ function TesterScroll() {
         content: document.getElementById("container-1-feature-1"),
         scrollPoint: {
           demarcation: null,
-          scrollUp: null,
-          scrollDown: null,
         },
       },
       containerOneFeatureTwo: {
         content: document.getElementById("container-1-feature-2"),
         scrollPoint: {
           demarcation: 0.21,
-          scrollUp: 0.16,
-          scrollDown: 0.37,
         },
       },
       containerOneFeatureThree: {
         content: document.getElementById("container-1-feature-3"),
         scrollPoint: {
           demarcation: 0.54,
-          scrollUp: 0.43,
-          scrollDown: 0.7,
         },
       },
     };
+
+    const containerOneGifImageOne = {
+      content: document.getElementById("container-1-img"),
+      scrollPoint: {
+        demarcation: 0.64,
+      },
+    };
+
     for (const [featrueName, featureValue] of Object.entries(allFeatures)) {
       //control opacity when scrolling up or down
       if (!featureValue.scrollPoint.demarcation) continue;
@@ -165,29 +117,39 @@ function TesterScroll() {
         //opacity increasing
         featureValue.content.style.opacity =
           (scrollPercent - (featureValue.scrollPoint.demarcation - 0.1)) * 4;
-        // featureValue.content.style.opacity = 0;
       } else if (scrollPercent < featureValue.scrollPoint.demarcation + 0.1) {
+        //hold opacity on
         featureValue.content.style.opacity = 1;
       } else {
         //opacity decreasing
-        // featureValue.content.style.opacity =
-        //   -(scrollPercent - featureValue.scrollPoint.scrollDown) * 0.0025;
-        console.log("(featureValue.scrollPoint.demarcation + 0.2)");
-        console.log(featureValue.scrollPoint.demarcation + 0.2);
-        console.log(
-          "scrollPercent - (featureValue.scrollPoint.demarcation + 0.2)"
-        );
-        console.log(featureValue.scrollPoint.demarcation + 0.2 - scrollPercent);
         featureValue.content.style.opacity =
           (featureValue.scrollPoint.demarcation + 0.2 - scrollPercent) * 4;
       }
     }
+    //container 1 gif image
+    const gifImg1_triggerPoint =
+      containerOneGifImageOne.scrollPoint.demarcation;
+    const LAST_POINT = 0.91;
+    const gifImg1_scale =
+      (scrollPercent - gifImg1_triggerPoint) /
+        (LAST_POINT - gifImg1_triggerPoint) +
+      1;
+    const gifImg1_opacity =
+      1 -
+      (scrollPercent - gifImg1_triggerPoint) /
+        (LAST_POINT - gifImg1_triggerPoint);
+    if (scrollPercent >= gifImg1_triggerPoint) {
+      containerOneGifImageOne.content.style.transform = `scale(${gifImg1_scale}, ${gifImg1_scale})`;
+      containerOneGifImageOne.content.style.opacity = gifImg1_opacity;
+    }
+    //container 1 gif image 1
   }, [scrollPercent]);
 
   return (
-    <main className="scroll-view" ref={container}>
+    <main className="main-page-main-region">
+      <div className="scroll-view" ref={viewRegion}></div>
       <section ref={container1} className="container container-1">
-        <div className="view-region" ref={viewRegion}>
+        <div className="view-region">
           <img
             id="container-1-img"
             className="main-page-gif-image"
@@ -206,15 +168,50 @@ function TesterScroll() {
         </p>
       </section>
       <section className="container container-2">
-        <img
-          id="container-2-img-1"
-          className="main-page-gif-image"
-          src={currentGifImage.container2}
-          alt=""
-        />
-        <h2 id="container-2-feature-1" className="container-2-feature">
-          Old Fasion
-        </h2>
+        <div className="container-2-region container-2-sugar">
+          <img
+            id="container-2-img-1"
+            className="main-page-gif-image"
+            src={currentGifImage.container2}
+            alt=""
+          />
+          <h2 id="container-2-feature-1" className="container-2-feature">
+            Sweet
+          </h2>
+        </div>
+        <div className="container-2-region container-2-bitter">
+          <h2 id="container-2-feature-2" className="container-2-feature">
+            Bitter
+          </h2>
+          <img
+            id="container-2-img-2"
+            className="main-page-gif-image"
+            src={currentGifImage.container3}
+            alt=""
+          />
+        </div>
+        <div className="container-2-region container-2-crush">
+          <img
+            id="container-2-img-3"
+            className="main-page-gif-image"
+            src={currentGifImage.container4}
+            alt=""
+          />
+          <h2 id="container-2-feature-3" className="container-2-feature">
+            Crush
+          </h2>
+        </div>
+        <div className="container-2-region container-2-bourbon">
+          <h2 id="container-2-feature-4" className="container-2-feature">
+            Flavour
+          </h2>
+          <img
+            id="container-2-img-4"
+            className="main-page-gif-image"
+            src={currentGifImage.container5}
+            alt=""
+          />
+        </div>
       </section>
       <section className="container container-3">
         <img

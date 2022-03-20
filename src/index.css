@@ -1,7 +1,7 @@
 :root {
   --header-height: 120px;
   --container-1-height: 2600px;
-  /* --container-2-height: 2600px; */
+  --container-2-height: 2600px;
   /* --container-1-height: 350vh;
   --container-2-height: 350vh; */
   --search-bar-img-width: 30px;
@@ -16,15 +16,28 @@ body {
 }
 
 /* --- MainPage --- */
+.main-page-main-region {
+  position: relative;
+}
+
+.scroll-view {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  border: 3px solid pink;
+  z-index: 10;
+}
+
 .container {
   position: relative;
   margin-top: calc(-1 * var(--header-height));
+  margin-top: -100vh;
   border: 3px white solid;
 }
 
 .container-1 {
   height: var(--container-1-height);
-  /* margin-top: -20vh; */
+  z-index: 5;
 }
 
 .view-region {
@@ -44,6 +57,7 @@ body {
 #container-1-img {
   animation-name: img-blur-3s;
   animation-duration: 3s;
+  
 }
 
 @keyframes img-blur-3s {
@@ -77,14 +91,54 @@ body {
 }
 
 .container-2 {
-  height: var(--container-1-height);
-  border: 3px solid pink;
+  height: var(--container-2-height);
+  /* border: 3px solid pink; */
+  z-index: -4;
+  margin-top: -130vh;
+  position: relative;
+}
+
+.container-2-region {
+  position: sticky;
+  width: 500px;
+  display: flex;
+  align-items: center;
+  border: 3px yellow solid;
+}
+
+.container-2-region > img {
+  width: 300px;
+}
+
+.container-2-sugar {
+  top: 5vh;
+  margin-left: auto;
+  margin-right: 50vw;
+  justify-content:space-between;
+}
+
+.container-2-bitter {
+  top: 25vh;
+  margin-left: 50vw;
+  margin-right: auto;
+  justify-content:space-between;
+}
+
+.container-2-crush {
+  top: 45vh;
+  margin-left: auto;
+  margin-right: 50vw;
+  justify-content:space-between;
+}
+
+.container-2-bourbon {
+  top: 65vh;
+  margin-left: 50vw;
+  margin-right: auto;
+  justify-content:space-between;
 }
 
 #container-2-img-1 {
-  z-index: -4;
-  position: sticky;
-  top: 0;
 }
 
 /* --- test --- */
@@ -101,4 +155,105 @@ body {
   margin-right: 30vh;
   text-align: right;
   
+} */
+
+/* --- copy --- */
+/* html {
+  font-family: 'Heebo';
+  font-size: 10px;
+  color: #444;
+}
+
+.app {
+  font-size: 1.4rem;
+  line-height: 2em;
+}
+
+.app h1, 
+.app h2, 
+.app h3, 
+.app h4, 
+.app h5, 
+.app h6, 
+.app p {
+  margin: 0;
+}
+
+.app h1, 
+.app h2, 
+.app h3, 
+.app h4, 
+.app h5, 
+.app h6, 
+.app p,
+.app li {
+  padding: 0 1rem;
+}
+
+.app button, 
+.app input {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  color: #fff;
+  background: #444;
+  border-radius: 0.5rem;
+}
+
+.app button:hover,
+.app input[type=button]:hover {
+  background: #927ABF;
+}
+
+.app button, .app input[type=button] {
+  border: 0px;
+  cursor: pointer;
+}
+
+.app input[type=checkbox] {
+  height: 1.6rem;
+  width: 1.6rem;
+}
+
+.app h1 {
+  font-size: 2.4rem;
+}
+
+.app h2 {
+  font-size: 2.2rem;
+}
+
+.app h3 {
+  font-size: 2.0rem;
+}
+
+.app h4 {
+  font-size: 1.8rem;
+}
+
+.app h5 {
+  font-size: 1.6rem;
+}
+
+.app h6 {
+  font-size: 1.4rem;
+}
+
+.app p {
+  font-size: 1.4rem;
+}
+
+.app a {
+  text-decoration: none;
+  color: #5C5CFF;
+}
+
+.app a:hover {
+  color: transparentize(#5C5CFF, 0.25);
+}
+
+.app label {
+  display: flex;
+  align-items: center;
 } */

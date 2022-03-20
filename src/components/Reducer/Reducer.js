@@ -11,6 +11,11 @@ const reducer = (state, action) => {
         searchText: action.item.text,
         searchBtnCount: action.item.btnCounter,
       };
+    case "SET_USER":
+      return {
+        ...state,
+        user: action.user,
+      };
     default:
       return state;
   }

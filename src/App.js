@@ -1,42 +1,60 @@
-import { useState } from "react";
-// import { HashRouter as Router, Route, Switch, Link } from "react-router-dom";
-// import Basic from "./basic/Basic";
-import Full from "./components/full/Full";
+import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { db } from "./firebase";
+import { getAuth } from "firebase/auth";
+import { useStateValue } from "./components/Reducer/StateProvider";
 import Header from "./components/Header/Header.js";
-import TesterScroll from "./components/TesterScroll.js";
+import TesterScroll from "./components/MainPage/TesterScroll.js";
 // import MainPage from "./components/MainPage.js";
 import SearchPage from "./components/SearchPage/SearchPage.js";
-import { StateProvider } from "./components/Reducer/StateProvider";
-import reducer, { initialState } from "./components/Reducer/Reducer";
+// import "./App.css";
+import LoginPage from "./components/LoginPage/LoginPage.js";
+import SignUpPage from "./components/LoginPage/SignUpPage.js";
 
 function App() {
-  const [] = useState();
-  return (
-    // <Router>
-    //   <div className="header">
-    //     <Link to="/">Home</Link>
-    //     <Link to="/basic">Basic Example</Link>
-    //     <Link to="/full">Full Example</Link>
-    //   </div>
-    //   <Switch>
-    //     <Route path="/basic">
-    //             <Basic />
-    //         </Route>
-    //     <Route path="/">
-    //       <Full />
-    //     </Route>
-    //     <Route path="/">
-    //             <Home />
-    //         </Route>
-    //   </Switch>
-    // </Router>
-    <div>
-      <StateProvider initialState={initialState} reducer={reducer}>
+  const HomePage = () => {
+    return (
+      <div>
         <Header />
-        {/* <TesterScroll /> */}
+        <TesterScroll />
+      </div>
+    );
+  };
+  const SearchResultPage = () => {
+    return (
+      <div>
+        <Header />
         <SearchPage />
-      </StateProvider>
-    </div>
+      </div>
+    );
+  };
+  const auth = getAuth();
+  const [{}, dispatch] = useStateValue();
+  useEffect(() => {
+    auth.onAuthStateChanged((authUser) => {
+      console.log("THE USE iS >>> ", authUser);
+      if (authUser) {
+        dispatch({
+          type: "SET_USER",
+          user: authUser,
+        });
+      } else {
+        dispatch({
+          type: "SET_USER",
+          user: null,
+        });
+      }
+    });
+  }, []);
+  return (
+    <Router>
+      <Routes>
+        <Route exact path="/" element={<HomePage />}></Route>
+        <Route exact path="/searchPage" element={<SearchResultPage />}></Route>
+        <Route path="/loginPage" element={<LoginPage />}></Route>
+        <Route path="/signUpPage" element={<SignUpPage />}></Route>
+      </Routes>
+    </Router>
   );
 }
 

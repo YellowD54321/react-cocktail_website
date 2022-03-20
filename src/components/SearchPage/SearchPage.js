@@ -17,10 +17,16 @@ function SearchPage() {
     },
   ]);
   const cocktailBasicApiUrl = "https://www.thecocktaildb.com/api/json/v1/1/";
+  const cocktailRandomApiUrl = `https://www.thecocktaildb.com/api/json/v1/1/random.php`;
   const searchTextForAPI = searchText
     ? "search.php?s=" + searchText
     : "search.php?s=";
-  const cocktailApiUrl = cocktailBasicApiUrl + searchTextForAPI;
+  let cocktailApiUrl = "";
+  if (searchText.toLowerCase() === "random") {
+    cocktailApiUrl = cocktailRandomApiUrl;
+  } else {
+    cocktailApiUrl = cocktailBasicApiUrl + searchTextForAPI;
+  }
   let searchResult = "";
   useEffect(() => {
     getDataFromAPI(cocktailApiUrl).then((data) => {

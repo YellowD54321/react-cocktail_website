@@ -34,21 +34,21 @@ export function getInterpolators() {
       const scale = (1.3 - proportion) / 0.3;
       return { transform: `scaleX(${scale})` };
     } else {
-      return { transform: "scaleX(0)" };
+      return { transform: `scaleX(0)` };
     }
   }
 
   function secondSectionForegroundInterpolator(proportion) {
     if (proportion < 0) {
-      return { opacity: 0, transform: "translateX(-20rem)" };
+      return { opacity: 0, transform: `translateX(-20rem)` };
     } else if (proportion > 1) {
-      return { opacity: 0, transform: "translateX(20rem)" };
+      return { opacity: 0, transform: `translateX(20rem)` };
     } else {
       return {};
     }
   }
 
-  function thirdSectionInterpolator(proportion) {}
+  // function thirdSectionInterpolator(proportion) {}
 
   return {
     firstSectionInterpolator,

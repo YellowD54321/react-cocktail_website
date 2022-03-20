@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
-import StickyView from "../common/StickyView";
-import ScrollContext from "../common/ScrollContext";
+import StickyView from "./StickyView";
+import ScrollContext from "./ScrollContext";
 import "./full.css";
-import { getInterpolators } from "./interpolators";
+import { getInterpolators } from "./interpolators.js";
 
-export default function Full(props) {
+function Full(props) {
   const [scrollingElement, setScrollingElement] = useState(null);
 
   const {
@@ -14,6 +14,8 @@ export default function Full(props) {
   } = useMemo(() => getInterpolators());
 
   function scrollingElRef(ref) {
+    console.log("ref");
+    console.log(ref);
     setScrollingElement(ref);
   }
 
@@ -42,9 +44,6 @@ export default function Full(props) {
                   Between 0 and 0.1, fades in and scales down from 4 to 1.
                 </p>
                 <p className={checkActive(proportion, 0.1, 1)}>
-                  Between 0.1 and 1, has full opacity and no scaling.
-                </p>
-                <p className={checkActive(proportion, 1, 1.1)}>
                   Between 1 and 1.1, fades out and scales up from 1 to 4.
                 </p>
                 <p>Above 1.1, has 0 opacity.</p>
@@ -64,7 +63,7 @@ export default function Full(props) {
               >
                 <h1>{proportion}</h1>
                 <p>
-                  This section has code that takes the number above and does the
+                  This section has code tha takes the number above and does the
                   following:
                 </p>
                 <h6>The background:</h6>
@@ -83,10 +82,10 @@ export default function Full(props) {
                   you stop scrolling.
                 </p>
                 <p>
-                  An animation happens because of the CSS 'transition' property.
+                  An animation happens because of the css 'transition' property.
                 </p>
                 <p>
-                  This decouples the animation part of the transition while
+                  This decouple the animation part of the transition while
                   continuing to make display dependent on scroll position! (CSS
                   is pretty cool!)
                 </p>
@@ -105,7 +104,7 @@ export default function Full(props) {
           {(proportion) => (
             <div className="full-sticky-content">
               <h1>{proportion}</h1>
-              <p>There's nothing fancy in this one.</p>
+              <p>There;s nothing fancy in this one.</p>
             </div>
           )}
         </StickyView>
@@ -113,3 +112,4 @@ export default function Full(props) {
     </ScrollContext.Provider>
   );
 }
+export default Full;

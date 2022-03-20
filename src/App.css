@@ -1,4 +1,4 @@
-.app {
+/* .app {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -20,11 +20,11 @@
   padding: 0.5rem 3rem;
   margin-right: 0.5rem;
   border-radius: 2rem;
-  border: 0.1rem solid HSL(355°, 90%, 71%);
+  border: 0.1rem solid #927ABF;
 }
 
 .app > *:nth-child(2) {
   flex-grow: 1;
   overflow-y: auto;
   overflow-x: hidden;
-}
+} */

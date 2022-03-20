@@ -15,7 +15,7 @@
 }
 
 .full-sticky-content.sticky-content-1 {
-    background: purple;
+    background: #D2A6EF;
     color: #fff;
 }
 
@@ -28,7 +28,7 @@
 }
 
 .full-sticky-foreground .active {
-    background: orange;
+    background: #7531BF;
     color: #fff;
 }
 
