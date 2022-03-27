@@ -9,6 +9,7 @@ function SignUpPage() {
   const [signUpFailInfo, setSignUpFailInfo] = useState("");
   const auth = getAuth();
   const navigate = useNavigate();
+  const webName = "Next Drink";
 
   function handleSignUp() {
     const userEmail = userEmailRef?.current?.value;
@@ -36,43 +37,41 @@ function SignUpPage() {
   }
 
   return (
-    <div className="login-page-body">
-      <img className="login-page-logo" src="./images/Logo/Logo.png" alt="" />
-      <form className="login-page-form" autoComplete="off">
-        <h2 className="login-page-welcome-text">
-          Sign Up Cocktail Is Everywhere
-        </h2>
-        <div className="login-page-input-region login-page-email-region">
+    <div className="signUp-page-body">
+      <form className="signUp-page-form" autoComplete="off">
+        <img className="signUp-page-logo" src="./images/Logo/Logo.png" alt="" />
+        <h2 className="signUp-page-welcome-text">Sign Up {webName}</h2>
+        <div className="signUp-page-input-region signUp-page-email-region">
           <input
-            className="login-page-email"
+            className="signUp-page-email"
             type="text"
             name="email"
             ref={userEmailRef}
             required
           />
-          <label htmlFor="email" className="login-page-label-email">
-            <span className="login-page-content login-page-content-email">
+          <label htmlFor="email" className="signUp-page-label-email">
+            <span className="signUp-page-content signUp-page-content-email">
               Email Address
             </span>
           </label>
         </div>
-        <div className="login-page-input-region login-page-password-region">
+        <div className="signUp-page-input-region signUp-page-password-region">
           <input
-            className="login-page-password"
+            className="signUp-page-password"
             type="password"
             name="password"
             ref={userPasswordRef}
             required
           />
-          <label htmlFor="password" className="login-page-label-password">
-            <span className="login-page-content login-page-content-password">
+          <label htmlFor="password" className="signUp-page-label-password">
+            <span className="signUp-page-content signUp-page-content-password">
               Password
             </span>
           </label>
         </div>
-        <p className="login-page-fail-info">{signUpFailInfo}</p>
+        <p className="signUp-page-fail-info">{signUpFailInfo}</p>
         <button
-          className="login-page-login-btn"
+          className="signUp-page-signUp-btn"
           type="button"
           onClick={handleSignUp}
         >

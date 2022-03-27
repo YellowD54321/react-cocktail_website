@@ -9,6 +9,7 @@ function LoginPage() {
   const [loginFailInfo, setLoginFailInfo] = useState("");
   const auth = getAuth();
   const navigate = useNavigate();
+  const webName = "Next Drink";
 
   function logInStart() {
     const userEmail = userEmailRef?.current?.value;
@@ -48,11 +49,9 @@ function LoginPage() {
 
   return (
     <div className="login-page-body">
-      <img className="login-page-logo" src="./images/Logo/Logo.png" alt="" />
       <form className="login-page-form" autoComplete="off">
-        <h2 className="login-page-welcome-text">
-          Log Into Cocktail Is Everywhere
-        </h2>
+        <img className="login-page-logo" src="./images/Logo/Logo.png" alt="" />
+        <h2 className="login-page-welcome-text">Log Into {webName}</h2>
         <div className="login-page-input-region login-page-email-region">
           <input
             className="login-page-email"

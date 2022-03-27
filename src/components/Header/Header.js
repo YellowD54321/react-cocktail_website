@@ -106,37 +106,41 @@ function Header() {
           onClick={startRandomDice}
         />
       </div>
-      <div className="header-right">
-        <section className="header-myfavourite">
-          <a href="#">
-            <img
-              className="header-myfavourite-img"
-              src="../images/icons/myfavourite-icon.png"
-              alt="My Favourite Cocktail"
-              title="My Favourite Cocktail"
-            />
-          </a>
-        </section>
-        <section className="header-shipping-cart">
-          <a href="#">
-            <img
-              className="header-shipping-cart-img"
-              src="../images/icons/shipping-cart-icon.png"
-              alt="My Shipping Cart"
-              title="My Shipping Cart"
-            />
-          </a>
-        </section>
-        <section className="header-account">
-          <p>Hello {user ? userEmailName : `guest!`}</p>
-          <button
-            className="header-signIn-signOut-btn"
-            onClick={handleLogClick}
-          >
-            {user ? `Log out` : `Log in`}
-          </button>
-        </section>
-      </div>
+      <nav className="header-right">
+        <ul>
+          <li className="header-myfavourite">
+            <a href="#">
+              <img
+                className="header-myfavourite-img"
+                src="../images/icons/myfavourite-icon.png"
+                alt="My Favourite Cocktail"
+                title="My Favourite Cocktail"
+                style={{ display: user ? "block" : "none" }}
+              />
+            </a>
+          </li>
+          <li className="header-account">
+            <p>Hello {user ? userEmailName : `Guest!`}</p>
+            <button
+              className="header-signIn-signOut-btn"
+              onClick={handleLogClick}
+            >
+              {user ? `Log out` : `Log in`}
+            </button>
+          </li>
+          <li className="header-account-small">
+            <button className="header-account-info-btn">
+              {user ? userEmailName?.toUpperCase().split("")[0] : ""}
+              <img
+                className="header-login-img"
+                src="../images/icons/login-icon.png"
+                alt=""
+                style={{ display: user ? "none" : "block" }}
+              />
+            </button>
+          </li>
+        </ul>
+      </nav>
     </header>
   );
 }

@@ -4,6 +4,7 @@ import SearchResult from "./SearchResult";
 import { useStateValue } from "../Reducer/StateProvider";
 import NoSearchResult from "./NoSearchResult";
 function SearchPage() {
+  let searchResultClassName = "";
   const [{ searchText, searchBtnCount }, dispatch] = useStateValue();
   const [cocktail, setCocktail] = useState([
     {
@@ -22,7 +23,7 @@ function SearchPage() {
     ? "search.php?s=" + searchText
     : "search.php?s=";
   let cocktailApiUrl = "";
-  if (searchText.toLowerCase() === "random") {
+  if (!searchText || searchText?.toLowerCase() === "random") {
     cocktailApiUrl = cocktailRandomApiUrl;
   } else {
     cocktailApiUrl = cocktailBasicApiUrl + searchTextForAPI;
@@ -30,7 +31,7 @@ function SearchPage() {
   let searchResult = "";
   useEffect(() => {
     getDataFromAPI(cocktailApiUrl).then((data) => {
-      const drinks = data.drinks;
+      const drinks = data?.drinks;
       if (!drinks) {
         console.log("There is no result from cocktail API.");
         setCocktail(null);
@@ -81,7 +82,12 @@ function SearchPage() {
     return reslut;
   };
 
+  const chooseCocktailByClick = () => {
+    console.log("chooseCocktailByClick is running.");
+  };
+
   if (!cocktail) {
+    searchResultClassName = "search-result-notFound-all";
     searchResult = (
       <NoSearchResult
         getDataFromAPI={getDataFromAPI}
@@ -89,6 +95,7 @@ function SearchPage() {
       />
     );
   } else {
+    searchResultClassName = "search-result-all";
     searchResult = cocktail.map((item, index) => {
       return (
         <SearchResult
@@ -96,11 +103,16 @@ function SearchPage() {
           {...item}
           cocktail={item}
           index={index}
+          chooseCocktailByClick={chooseCocktailByClick}
         />
       );
     });
   }
 
-  return <main>{searchResult}</main>;
+  return (
+    <div>
+      <div className={searchResultClassName}>{searchResult}</div>;
+    </div>
+  );
 }
 export default SearchPage;

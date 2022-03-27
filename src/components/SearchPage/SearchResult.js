@@ -1,26 +1,16 @@
 function SearchResult(props) {
   const cocktail = props.cocktail;
-  const index = props.index;
+  const chooseCocktailByClick = props.chooseCocktailByClick;
 
   return (
-    <div
-      className={
-        `search-result-region search-result-region-` + (index % 2).toString()
-      }
-    >
-      <div>
-        <img
-          className="search-result-cocktail-img"
-          src={cocktail.image}
-          alt=""
-        />
-      </div>
-      <div>
-        <h2 className="search-result-cocktail-name">{cocktail.name}</h2>
-        <p className="search-result-cocktail-instruction">
-          {cocktail.instruction}
-        </p>
-      </div>
+    <div className="search-result-region">
+      <h2 className="search-result-cocktail-name">{cocktail.name}</h2>
+      <img
+        className="search-result-cocktail-img"
+        src={cocktail.image}
+        alt=""
+        onClick={chooseCocktailByClick}
+      />
     </div>
   );
 }
