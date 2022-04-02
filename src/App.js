@@ -7,6 +7,7 @@ import Header from "./components/Header/Header.js";
 import TesterScroll from "./components/MainPage/TesterScroll.js";
 // import MainPage from "./components/MainPage.js";
 import SearchPage from "./components/SearchPage/SearchPage.js";
+import ProductPage from "./components/ProductPage/ProductPage.js";
 // import "./App.css";
 import LoginPage from "./components/LoginPage/LoginPage.js";
 import SignUpPage from "./components/LoginPage/SignUpPage.js";
@@ -25,6 +26,14 @@ function App() {
       <div>
         <Header />
         <SearchPage />
+      </div>
+    );
+  };
+  const SingleCocktailPage = () => {
+    return (
+      <div>
+        <Header />
+        <ProductPage />
       </div>
     );
   };
@@ -51,6 +60,11 @@ function App() {
       <Routes>
         <Route exact path="/" element={<HomePage />}></Route>
         <Route exact path="/searchPage" element={<SearchResultPage />}></Route>
+        <Route
+          exact
+          path="/productPage"
+          element={<SingleCocktailPage />}
+        ></Route>
         <Route path="/loginPage" element={<LoginPage />}></Route>
         <Route path="/signUpPage" element={<SignUpPage />}></Route>
       </Routes>

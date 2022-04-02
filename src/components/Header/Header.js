@@ -10,12 +10,14 @@ function Header() {
   // const userEmailAddress = user?.email;
   const userEmailName = user?.email?.match(/[^@]*/i)[0];
   const navigate = useNavigate();
+  const accountNavBarRef = useRef(null);
+  console.log("accountNavBarRef");
+  console.log(accountNavBarRef);
 
   const startSearching = () => {
     const searchInput = searchBarRef?.current?.value;
     const btnCounter = searchBtnCount >= 0 ? searchBtnCount + 1 : 0;
 
-    navigate("/searchPage");
     dispatch({
       type: "SEARCH_TEXT",
       item: {
@@ -23,6 +25,7 @@ function Header() {
         btnCounter: btnCounter,
       },
     });
+    navigate("/searchPage");
   };
 
   function searchBarOnKeyUp(event) {
@@ -46,7 +49,7 @@ function Header() {
   function handleLogClick() {
     const auth = getAuth();
 
-    if (user) {
+    if (isLogIn()) {
       handleLogOut(auth);
     } else {
       handleLogIn();
@@ -74,30 +77,55 @@ function Header() {
     navigate("/");
   }
 
+  function headerAccountButtonOnClick() {
+    if (isLogIn()) {
+      const accountInfoWindow = accountNavBarRef?.current;
+      if (
+        accountInfoWindow.classList.contains(
+          "header-account-small-navBar-clicked"
+        )
+      ) {
+        accountInfoWindow.classList.remove(
+          "header-account-small-navBar-clicked"
+        );
+      } else {
+        accountInfoWindow.classList.add("header-account-small-navBar-clicked");
+      }
+    } else {
+      handleLogIn();
+    }
+  }
+
+  function isLogIn() {
+    return !!user;
+  }
+
   return (
     <header>
       <div className="header-left">
         <img
           className="header-logo"
           src="../images/Logo/Logo.png"
-          alt="Cocktail is Everywhere"
+          alt="Next Drink"
           onClick={handleLogoClick}
         />
       </div>
       <div className="header-middle">
-        <input
-          className="header-search-bar"
-          type="text"
-          placeholder="search by name"
-          ref={searchBarRef}
-          onKeyUp={searchBarOnKeyUp}
-        />
-        <img
-          className="header-search-bar-img"
-          src="../images/icons/search-icon.png"
-          alt=""
-          onClick={startSearching}
-        />
+        <div className="header-search-bar-region">
+          <input
+            className="header-search-bar"
+            type="text"
+            placeholder="Cocktail name"
+            ref={searchBarRef}
+            onKeyUp={searchBarOnKeyUp}
+          />
+          <img
+            className="header-search-bar-img"
+            src="../images/icons/search-icon.png"
+            alt=""
+            onClick={startSearching}
+          />
+        </div>
         <img
           className="header-random-cocktail-img"
           src="../images/icons/dice-icon.png"
@@ -129,7 +157,10 @@ function Header() {
             </button>
           </li>
           <li className="header-account-small">
-            <button className="header-account-info-btn">
+            <button
+              className="header-account-info-btn"
+              onClick={headerAccountButtonOnClick}
+            >
               {user ? userEmailName?.toUpperCase().split("")[0] : ""}
               <img
                 className="header-login-img"
@@ -138,6 +169,34 @@ function Header() {
                 style={{ display: user ? "none" : "block" }}
               />
             </button>
+            <ul
+              className="header-account-small-navBar"
+              id="header-account-small-navBar"
+              ref={accountNavBarRef}
+            >
+              <li className="header-account-small-account-info">
+                {/* no guest here */}
+                Hello {user ? userEmailName : `Guest!`}
+              </li>
+              <li className="header-myfavourite">
+                <a href="#">
+                  <img
+                    className="header-myfavourite-img"
+                    src="../images/icons/myfavourite-icon.png"
+                    alt="My Favourite Cocktail"
+                    title="My Favourite Cocktail"
+                  />
+                </a>
+              </li>
+              <li>
+                <button
+                  className="header-signIn-signOut-btn"
+                  onClick={handleLogClick}
+                >
+                  Log out
+                </button>
+              </li>
+            </ul>
           </li>
         </ul>
       </nav>

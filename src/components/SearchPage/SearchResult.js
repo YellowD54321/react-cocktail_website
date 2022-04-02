@@ -10,6 +10,7 @@ function SearchResult(props) {
         src={cocktail.image}
         alt=""
         onClick={chooseCocktailByClick}
+        name={cocktail.drinkId}
       />
     </div>
   );

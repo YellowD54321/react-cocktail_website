@@ -1,9 +1,10 @@
-:root {
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Patrick+Hand&display=swap');:root {
   --header-height: 120px;
+  --header-mobile-height: 70px;
+  --header-account-info-btn-height: 50px;
+  --header-background-color: black;
   --container-1-height: 2600px;
   --container-2-height: 2600px;
-  /* --container-1-height: 350vh;
-  --container-2-height: 350vh; */
   --search-bar-img-width: 30px;
   --feature-padding-bottom: -20vh;
   --feature-paragraph-padding-bottom: 70vh;
@@ -14,6 +15,8 @@
   --web-main-color: #88c95f;
   /* --web-main-color: #f2b968; */
   --web-main-dark-color: #446330;
+
+  font-family: 'Patrick Hand', cursive;
 }
 
 body {

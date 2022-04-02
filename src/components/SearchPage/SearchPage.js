@@ -3,6 +3,7 @@ import "./SearchPage.css";
 import SearchResult from "./SearchResult";
 import { useStateValue } from "../Reducer/StateProvider";
 import NoSearchResult from "./NoSearchResult";
+import { useNavigate } from "react-router-dom";
 function SearchPage() {
   let searchResultClassName = "";
   const [{ searchText, searchBtnCount }, dispatch] = useStateValue();
@@ -12,7 +13,7 @@ function SearchPage() {
       name: "",
       ingredients: [],
       glass: "",
-      Instruction: "",
+      description: "",
       category: "",
       drinkId: "",
     },
@@ -23,6 +24,8 @@ function SearchPage() {
     ? "search.php?s=" + searchText
     : "search.php?s=";
   let cocktailApiUrl = "";
+  const navigate = useNavigate();
+
   if (!searchText || searchText?.toLowerCase() === "random") {
     cocktailApiUrl = cocktailRandomApiUrl;
   } else {
@@ -55,9 +58,9 @@ function SearchPage() {
   };
 
   const getCocktailInfo = (drinks) => {
-    let ingredients = [];
     let reslut = [];
     for (let i = 0; i < drinks.length; i++) {
+      let ingredients = [];
       reslut[i] = {
         image: drinks[i].strDrinkThumb,
         name: drinks[i].strDrink,
@@ -67,14 +70,14 @@ function SearchPage() {
             const ingredientAmount = "strMeasure" + j.toString();
             if (!drinks[i][ingredientName]) break;
             ingredients.push({
-              ingredient: drinks[i][ingredientName],
+              name: drinks[i][ingredientName],
               amount: drinks[i][ingredientAmount],
             });
           }
           return ingredients;
         })(),
         glass: drinks[i].strGlass,
-        instruction: drinks[i].strInstructions,
+        description: drinks[i].strInstructions,
         category: drinks[i].strCategory,
         drinkId: drinks[i].idDrink,
       };
@@ -82,8 +85,21 @@ function SearchPage() {
     return reslut;
   };
 
-  const chooseCocktailByClick = () => {
+  const chooseCocktailByClick = (e) => {
     console.log("chooseCocktailByClick is running.");
+    const cocktailId = e.target.name;
+    const cocktailInfo = cocktail.find((drink) => drink.drinkId === cocktailId);
+
+    console.log("cocktailInfo");
+    console.log(cocktailInfo);
+
+    dispatch({
+      type: "COCKTAIL_INFO",
+      item: {
+        cocktailInfo: cocktailInfo,
+      },
+    });
+    navigate("/productPage");
   };
 
   if (!cocktail) {

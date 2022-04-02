@@ -16,6 +16,11 @@ const reducer = (state, action) => {
         ...state,
         user: action.user,
       };
+    case "COCKTAIL_INFO":
+      return {
+        ...state,
+        cocktailInfo: action.item.cocktailInfo,
+      };
     default:
       return state;
   }
