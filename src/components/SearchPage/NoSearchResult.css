@@ -27,7 +27,6 @@
     background-color: #141412;
     padding: 10px 100%;
     width: 50vw;
-
 }
 
 .no-result-information-text > h2 {
@@ -44,4 +43,18 @@
 
 .no-result-try-random > p {
     font-size: 1.5rem;
+}
+
+@media screen and (max-width: 425px) {
+
+    .no-result-information {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .no-result-random {
+        background-color: #141412;
+        padding: 10px 100%;
+        width: auto;
+    }
 }

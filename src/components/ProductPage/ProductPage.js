@@ -12,14 +12,12 @@ function ProductPage() {
     filter: "brightness(2) invert(1) grayscale(1)",
     boxShadow: "inset 0 0 0 1px black",
   };
-  console.log("cocktailInfo");
-  console.log(cocktailInfo);
 
   const allIngredients = () => {
     let ingredients = cocktailInfo.ingredients;
     const ingredientList = ingredients.map((ingredient, index) => {
       return (
-        <p className="product-ingredient">
+        <p key={index} className="product-ingredient">
           {ingredient.name}: {ingredient.amount}
         </p>
       );

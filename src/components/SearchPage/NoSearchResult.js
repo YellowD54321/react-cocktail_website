@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import SearchResult from "./SearchResult";
+import CocktailList from "../CocktailList/CocktailList.js";
 import "./NoSearchResult.css";
 import { useStateValue } from "../Reducer/StateProvider";
 function NoSearchResult(props) {
@@ -12,7 +12,7 @@ function NoSearchResult(props) {
     glass: "",
     Instruction: "",
     category: "",
-    drinkId: "",
+    id: "",
   });
 
   const getDataFromAPI = props.getDataFromAPI;
@@ -46,14 +46,7 @@ function NoSearchResult(props) {
   }, [searchBtnCount]);
 
   if (cocktail[0]?.name) {
-    randomCocktail = (
-      <SearchResult
-        key={cocktail[0].drinkId}
-        {...cocktail[0]}
-        cocktail={cocktail[0]}
-        index={0}
-      />
-    );
+    randomCocktail = <CocktailList cocktail={cocktail} />;
   }
 
   return (

@@ -1,5 +1,9 @@
 export const initialState = {
-  searchResult: "",
+  searchText: "",
+  searchBtnCount: 0,
+  cocktailInfo: {},
+  user: {},
+  favouriteList: [],
 };
 
 const reducer = (state, action) => {
@@ -20,6 +24,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         cocktailInfo: action.item.cocktailInfo,
+      };
+    case "FAVOURITE_LIST":
+      return {
+        ...state,
+        favouriteList: action.item.favouriteList,
       };
     default:
       return state;

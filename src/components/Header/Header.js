@@ -11,8 +11,6 @@ function Header() {
   const userEmailName = user?.email?.match(/[^@]*/i)[0];
   const navigate = useNavigate();
   const accountNavBarRef = useRef(null);
-  console.log("accountNavBarRef");
-  console.log(accountNavBarRef);
 
   const startSearching = () => {
     const searchInput = searchBarRef?.current?.value;
@@ -100,6 +98,10 @@ function Header() {
     return !!user;
   }
 
+  function handleFavouriteClick() {
+    navigate("/favouritePage");
+  }
+
   return (
     <header>
       <div className="header-left">
@@ -137,15 +139,14 @@ function Header() {
       <nav className="header-right">
         <ul>
           <li className="header-myfavourite">
-            <a href="#">
-              <img
-                className="header-myfavourite-img"
-                src="../images/icons/myfavourite-icon.png"
-                alt="My Favourite Cocktail"
-                title="My Favourite Cocktail"
-                style={{ display: user ? "block" : "none" }}
-              />
-            </a>
+            <img
+              className="header-myfavourite-img"
+              src="../images/icons/myfavourite-icon.png"
+              alt="My Favourite Cocktail"
+              title="My Favourite Cocktail"
+              style={{ display: user ? "block" : "none" }}
+              onClick={handleFavouriteClick}
+            />
           </li>
           <li className="header-account">
             <p>Hello {user ? userEmailName : `Guest!`}</p>
@@ -179,14 +180,13 @@ function Header() {
                 Hello {user ? userEmailName : `Guest!`}
               </li>
               <li className="header-myfavourite">
-                <a href="#">
-                  <img
-                    className="header-myfavourite-img"
-                    src="../images/icons/myfavourite-icon.png"
-                    alt="My Favourite Cocktail"
-                    title="My Favourite Cocktail"
-                  />
-                </a>
+                <img
+                  className="header-myfavourite-img"
+                  src="../images/icons/myfavourite-icon.png"
+                  alt="My Favourite Cocktail"
+                  title="My Favourite Cocktail"
+                  onClick={handleFavouriteClick}
+                />
               </li>
               <li>
                 <button

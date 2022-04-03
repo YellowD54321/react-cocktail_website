@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import "./SearchPage.css";
-import SearchResult from "./SearchResult";
+import CocktailList from "../CocktailList/CocktailList.js";
 import { useStateValue } from "../Reducer/StateProvider";
 import NoSearchResult from "./NoSearchResult";
-import { useNavigate } from "react-router-dom";
+
 function SearchPage() {
-  let searchResultClassName = "";
   const [{ searchText, searchBtnCount }, dispatch] = useStateValue();
   const [cocktail, setCocktail] = useState([
     {
@@ -15,7 +13,7 @@ function SearchPage() {
       glass: "",
       description: "",
       category: "",
-      drinkId: "",
+      id: "",
     },
   ]);
   const cocktailBasicApiUrl = "https://www.thecocktaildb.com/api/json/v1/1/";
@@ -24,7 +22,6 @@ function SearchPage() {
     ? "search.php?s=" + searchText
     : "search.php?s=";
   let cocktailApiUrl = "";
-  const navigate = useNavigate();
 
   if (!searchText || searchText?.toLowerCase() === "random") {
     cocktailApiUrl = cocktailRandomApiUrl;
@@ -43,6 +40,17 @@ function SearchPage() {
       const cocktailInfo = getCocktailInfo(drinks);
       setCocktail(cocktailInfo);
     });
+    return () => {
+      setCocktail({
+        image: "",
+        name: "",
+        ingredients: [],
+        glass: "",
+        description: "",
+        category: "",
+        id: "",
+      });
+    };
   }, [searchBtnCount]);
 
   const getDataFromAPI = async (ApiUrl) => {
@@ -79,31 +87,13 @@ function SearchPage() {
         glass: drinks[i].strGlass,
         description: drinks[i].strInstructions,
         category: drinks[i].strCategory,
-        drinkId: drinks[i].idDrink,
+        id: drinks[i].idDrink,
       };
     }
     return reslut;
   };
 
-  const chooseCocktailByClick = (e) => {
-    console.log("chooseCocktailByClick is running.");
-    const cocktailId = e.target.name;
-    const cocktailInfo = cocktail.find((drink) => drink.drinkId === cocktailId);
-
-    console.log("cocktailInfo");
-    console.log(cocktailInfo);
-
-    dispatch({
-      type: "COCKTAIL_INFO",
-      item: {
-        cocktailInfo: cocktailInfo,
-      },
-    });
-    navigate("/productPage");
-  };
-
   if (!cocktail) {
-    searchResultClassName = "search-result-notFound-all";
     searchResult = (
       <NoSearchResult
         getDataFromAPI={getDataFromAPI}
@@ -111,24 +101,11 @@ function SearchPage() {
       />
     );
   } else {
-    searchResultClassName = "search-result-all";
-    searchResult = cocktail.map((item, index) => {
-      return (
-        <SearchResult
-          key={item.drinkId}
-          {...item}
-          cocktail={item}
-          index={index}
-          chooseCocktailByClick={chooseCocktailByClick}
-        />
-      );
-    });
+    searchResult = (
+      <CocktailList cocktail={cocktail} class="cocktailList-search-result" />
+    );
   }
 
-  return (
-    <div>
-      <div className={searchResultClassName}>{searchResult}</div>;
-    </div>
-  );
+  return <div>{searchResult}</div>;
 }
 export default SearchPage;

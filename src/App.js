@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { db } from "./firebase";
 import { getAuth } from "firebase/auth";
+import { db } from "./firebase";
+import { setDoc, getDoc, collection, doc } from "firebase/firestore";
 import { useStateValue } from "./components/Reducer/StateProvider";
 import Header from "./components/Header/Header.js";
 import TesterScroll from "./components/MainPage/TesterScroll.js";
@@ -11,9 +12,10 @@ import ProductPage from "./components/ProductPage/ProductPage.js";
 // import "./App.css";
 import LoginPage from "./components/LoginPage/LoginPage.js";
 import SignUpPage from "./components/LoginPage/SignUpPage.js";
+import FavouritePage from "./components/FavouritePage/FavouritePage.js";
 
 function App() {
-  const HomePage = () => {
+  const WholeMainPage = () => {
     return (
       <div>
         <Header />
@@ -21,7 +23,7 @@ function App() {
       </div>
     );
   };
-  const SearchResultPage = () => {
+  const WholeSearchPage = () => {
     return (
       <div>
         <Header />
@@ -29,7 +31,7 @@ function App() {
       </div>
     );
   };
-  const SingleCocktailPage = () => {
+  const WholeProductPage = () => {
     return (
       <div>
         <Header />
@@ -37,8 +39,17 @@ function App() {
       </div>
     );
   };
+  const WholeFavouritePage = () => {
+    return (
+      <div>
+        <Header />
+        <FavouritePage />
+      </div>
+    );
+  };
+
   const auth = getAuth();
-  const [{}, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       console.log("THE USE iS >>> ", authUser);
@@ -55,15 +66,39 @@ function App() {
       }
     });
   }, []);
+
+  useEffect(() => {
+    if (!user) return;
+
+    async function loadDb() {
+      const docRef = doc(db, "users", user.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const userData = docSnap.data();
+        const newFavouriteList = userData.favouriteList;
+        dispatch({
+          type: "FAVOURITE_LIST",
+          item: {
+            favouriteList: newFavouriteList,
+          },
+        });
+        console.log("Document data:", userData);
+      } else {
+        console.log(`No Document named: ${user.uid}`);
+      }
+    }
+    loadDb();
+  }, [user]);
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<HomePage />}></Route>
-        <Route exact path="/searchPage" element={<SearchResultPage />}></Route>
+        <Route exact path="/" element={<WholeMainPage />}></Route>
+        <Route exact path="/searchPage" element={<WholeSearchPage />}></Route>
+        <Route exact path="/productPage" element={<WholeProductPage />}></Route>
         <Route
           exact
-          path="/productPage"
-          element={<SingleCocktailPage />}
+          path="/favouritePage"
+          element={<WholeFavouritePage />}
         ></Route>
         <Route path="/loginPage" element={<LoginPage />}></Route>
         <Route path="/signUpPage" element={<SignUpPage />}></Route>
