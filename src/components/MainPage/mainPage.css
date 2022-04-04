@@ -1,12 +1,12 @@
 .main-page-main-region {
-    position: relative;
+    /* position: relative; */
+    background-color: black;
   }
   
   .scroll-view {
     position: sticky;
     top: 0;
     height: 100vh;
-    border: 3px solid pink;
     z-index: 10;
   }
   
@@ -17,6 +17,8 @@
     border: 3px white solid;
   }
   
+  /* container 1 */
+
   .container-1 {
     height: var(--container-1-height);
     z-index: 5;
@@ -39,7 +41,6 @@
   #container-1-img {
     animation-name: img-blur-3s;
     animation-duration: 3s;
-    
   }
   
   @keyframes img-blur-3s {
@@ -59,36 +60,38 @@
     text-align: right;
   }
   
-  .container > h2 {
+  #container-1-feature-1 {
     font-size: 5rem;
     margin-top: -70vh;
   }
   
-  .container > p {
+  #container-1-feature-2, #container-1-feature-3 {
     font-size: 3rem;
     position: sticky;
     top: 40vh;
     padding-bottom: var(--feature-paragraph-padding-bottom);
     opacity: 0;
   }
-  
+
+  /* container 2 */
+
   .container-2 {
     height: var(--container-2-height);
-    /* border: 3px solid pink; */
-    z-index: -4;
+    z-index: 0;
     margin-top: -100vh;
     position: relative;
   }
   
   .container-2-region {
     position: sticky;
-    width: 500px;
+    width: 30vw;
+    height: 20vh;
     display: flex;
     align-items: center;
-    border: 3px yellow solid;
+    /* border: 3px yellow solid; */
   }
   
-  .container-2-region > img {
+  .container-2-region .container-2-img-region {
     width: 300px;
   }
   
@@ -119,6 +122,71 @@
     margin-right: auto;
     justify-content:space-between;
   }
+
+  .container-2-img-region {
+    height: 100%;
+    margin: auto;
+    position: relative;
+    /* border: 3px pink solid; */
+    /* box-shadow: inset 0 0px 4px 4px white; */
+  }
+
+  .container-2-img-blur-edge {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    box-shadow: inset 0 0px 4px 4px black;
+  }
+
+
+  .container-2-img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    opacity: 0.9;
+    z-index: -1;
+  }
+
+  .container-2-feature {
+    position: absolute;
+    z-index: 1;
+  }
   
-  #container-2-img-1 {
+  /* #container-2-img-1 {
+    opacity: 1;
+  } */
+
+  #container-2-feature-1 {
+    right: 0;
+    top: -500px;
+  }
+
+  /* #container-2-img-2 {
+    top: -500px;
+    right: 0;
+    opacity: 0;
+  } */
+
+  #container-2-feature-2 {
+    opacity: 0;
+  }
+
+  /* #container-2-img-3 {
+    opacity: 0.9;
+  } */
+
+  #container-2-feature-3 {
+    right: 0;
+    top: 500px;
+    opacity: 0;
+  }
+
+  /* #container-2-img-4 {
+    opacity: 0;
+  } */
+
+  #container-2-feature-4 {
+    left: 0;
+    top: 500px;
+    opacity: 0;
   }

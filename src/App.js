@@ -4,9 +4,13 @@ import { getAuth } from "firebase/auth";
 import { db } from "./firebase";
 import { setDoc, getDoc, collection, doc } from "firebase/firestore";
 import { useStateValue } from "./components/Reducer/StateProvider";
+import viewRegionReducer, {
+  initialState,
+} from "./components/MainPage/MainPageReducer/ViewRegionReducer";
+import { ViewRegionProvider } from "./components/MainPage/MainPageReducer/ViewRegionContext.js";
 import Header from "./components/Header/Header.js";
-import TesterScroll from "./components/MainPage/TesterScroll.js";
-// import MainPage from "./components/MainPage.js";
+// import TesterScroll from "./components/MainPage/TesterScroll.js";
+import MainPage from "./components/MainPage/MainPage.js";
 import SearchPage from "./components/SearchPage/SearchPage.js";
 import ProductPage from "./components/ProductPage/ProductPage.js";
 // import "./App.css";
@@ -19,7 +23,12 @@ function App() {
     return (
       <div>
         <Header />
-        <TesterScroll />
+        <ViewRegionProvider
+          initialState={initialState}
+          reducer={viewRegionReducer}
+        >
+          <MainPage />
+        </ViewRegionProvider>
       </div>
     );
   };
@@ -69,7 +78,6 @@ function App() {
 
   useEffect(() => {
     if (!user) return;
-
     async function loadDb() {
       const docRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(docRef);

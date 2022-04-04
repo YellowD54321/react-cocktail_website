@@ -75,6 +75,7 @@ function TesterScroll() {
   // ];
 
   loadImageListFromEachFolder(oldFasionImages);
+
   function loadImageListFromEachFolder(imgObject) {
     for (const [key, imageName] of Object.entries(imgObject)) {
       for (let i = 0; i < imageName.amount; i++) {
