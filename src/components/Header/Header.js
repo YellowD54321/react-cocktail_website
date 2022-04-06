@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useStateValue } from "../Reducer/StateProvider";
 import { getAuth, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
@@ -7,10 +7,25 @@ import "./Header.css";
 function Header() {
   const searchBarRef = useRef("");
   const [{ searchBtnCount, user }, dispatch] = useStateValue();
-  // const userEmailAddress = user?.email;
   const userEmailName = user?.email?.match(/[^@]*/i)[0];
   const navigate = useNavigate();
   const accountNavBarRef = useRef(null);
+  const [styleOpacity, setStyleOpacity] = useState(1);
+
+  useEffect(() => {
+    window.addEventListener("scroll", switchOpacity);
+    return () => {
+      window.removeEventListener("scroll", switchOpacity);
+    };
+  }, []);
+
+  const switchOpacity = () => {
+    if (window.scrollY >= 100) {
+      setStyleOpacity(0.7);
+    } else {
+      setStyleOpacity(1);
+    }
+  };
 
   const startSearching = () => {
     const searchInput = searchBarRef?.current?.value;
@@ -103,7 +118,7 @@ function Header() {
   }
 
   return (
-    <header>
+    <header style={{ opacity: styleOpacity }}>
       <div className="header-left">
         <img
           className="header-logo"

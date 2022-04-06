@@ -57,9 +57,15 @@ function MainPage() {
   const [{ oldFasionImages }, dispatch] = useViewRegion();
   const scrollingElRef = useRef(null);
   // const container1 = useRef(null);
-  const { scrollEffectContainer1, scrollEffectContainer2 } = useMemo(() =>
-    ScrollEffect()
-  );
+  const {
+    scrollEffectContainer1,
+    scrollEffectContainer2,
+    scrollEffectContainer3,
+    scrollEffectContainer4,
+    scrollEffectContainer5,
+    scrollEffectContainer6,
+    scrollEffectImageChange,
+  } = useMemo(() => ScrollEffect());
 
   useEffect(() => {
     //Initialize oldFasionImages
@@ -144,18 +150,21 @@ function MainPage() {
                     "container-2-img-1-blur-edge",
                     scrollPercent
                   )}
-                >
-                  <img
-                    id="container-2-img-1"
-                    className="main-page-gif-image container-2-img"
-                    src={oldFasionImages?.sugarCube?.images[0]}
-                    alt=""
-                    style={scrollEffectContainer2(
-                      "container-2-img-1",
-                      scrollPercent
-                    )}
-                  />
-                </div>
+                ></div>
+                <img
+                  id="container-2-img-1"
+                  className="main-page-gif-image container-2-img"
+                  src={scrollEffectImageChange(
+                    "container-2-img-1",
+                    scrollPercent,
+                    oldFasionImages
+                  )}
+                  alt=""
+                  style={scrollEffectContainer2(
+                    "container-2-img-1",
+                    scrollPercent
+                  )}
+                />
                 <h2
                   id="container-2-feature-1"
                   className="container-2-feature"
@@ -186,18 +195,21 @@ function MainPage() {
                     "container-2-img-2-blur-edge",
                     scrollPercent
                   )}
-                >
-                  <img
-                    id="container-2-img-2"
-                    className="main-page-gif-image container-2-img"
-                    src={oldFasionImages?.bitter?.images[0]}
-                    alt=""
-                    style={scrollEffectContainer2(
-                      "container-2-img-2",
-                      scrollPercent
-                    )}
-                  />
-                </div>
+                ></div>
+                <img
+                  id="container-2-img-2"
+                  className="main-page-gif-image container-2-img"
+                  src={scrollEffectImageChange(
+                    "container-2-img-2",
+                    scrollPercent,
+                    oldFasionImages
+                  )}
+                  alt=""
+                  style={scrollEffectContainer2(
+                    "container-2-img-2",
+                    scrollPercent
+                  )}
+                />
               </div>
             </div>
             <div className="container-2-region container-2-crush">
@@ -208,18 +220,21 @@ function MainPage() {
                     "container-2-img-3-blur-edge",
                     scrollPercent
                   )}
-                >
-                  <img
-                    id="container-2-img-3"
-                    className="main-page-gif-image container-2-img"
-                    src={oldFasionImages?.crush?.images[0]}
-                    alt=""
-                    style={scrollEffectContainer2(
-                      "container-2-img-3",
-                      scrollPercent
-                    )}
-                  />
-                </div>
+                ></div>
+                <img
+                  id="container-2-img-3"
+                  className="main-page-gif-image container-2-img"
+                  src={scrollEffectImageChange(
+                    "container-2-img-3",
+                    scrollPercent,
+                    oldFasionImages
+                  )}
+                  alt=""
+                  style={scrollEffectContainer2(
+                    "container-2-img-3",
+                    scrollPercent
+                  )}
+                />
                 <h2
                   id="container-2-feature-3"
                   className="container-2-feature"
@@ -250,19 +265,106 @@ function MainPage() {
                     "container-2-img-4-blur-edge",
                     scrollPercent
                   )}
-                >
-                  <img
-                    id="container-2-img-4"
-                    className="main-page-gif-image container-2-img"
-                    src={oldFasionImages?.bourbon?.images[0]}
-                    alt=""
-                    style={scrollEffectContainer2(
-                      "container-2-img-4",
-                      scrollPercent
-                    )}
-                  />
-                </div>
+                ></div>
+                <img
+                  id="container-2-img-4"
+                  className="main-page-gif-image container-2-img"
+                  src={scrollEffectImageChange(
+                    "container-2-img-4",
+                    scrollPercent,
+                    oldFasionImages
+                  )}
+                  alt=""
+                  style={scrollEffectContainer2(
+                    "container-2-img-4",
+                    scrollPercent
+                  )}
+                />
               </div>
+            </div>
+          </>
+        )}
+      </Container>
+      <Container containerIndex={3}>
+        {(scrollPercent) => (
+          <>
+            <div className="view-region">
+              <img
+                id="container-3-img-1"
+                className="main-page-gif-image container-3-img"
+                src={scrollEffectImageChange(
+                  "container-3-img-1",
+                  scrollPercent,
+                  oldFasionImages
+                )}
+                alt=""
+                style={scrollEffectContainer3(
+                  "container-3-img-1",
+                  scrollPercent
+                )}
+              />
+            </div>
+          </>
+        )}
+      </Container>
+      <Container containerIndex={4}>
+        {(scrollPercent) => (
+          <>
+            <div className="view-region">
+              <img
+                id="container-4-img-1"
+                className="main-page-gif-image container-4-img"
+                src={scrollEffectImageChange(
+                  "container-4-img-1",
+                  scrollPercent,
+                  oldFasionImages
+                )}
+                alt=""
+                style={scrollEffectContainer4(
+                  "container-4-img-1",
+                  scrollPercent
+                )}
+              />
+            </div>
+          </>
+        )}
+      </Container>
+      <Container containerIndex={5}>
+        {(scrollPercent) => (
+          <>
+            <div className="view-region">
+              <img
+                id="container-5-img-1"
+                className="main-page-gif-image container-5-img"
+                src={scrollEffectImageChange(
+                  "container-5-img-1",
+                  scrollPercent,
+                  oldFasionImages
+                )}
+                alt=""
+                style={scrollEffectContainer5(
+                  "container-5-img-1",
+                  scrollPercent
+                )}
+              />
+            </div>
+          </>
+        )}
+      </Container>
+      <Container containerIndex={6}>
+        {(scrollPercent) => (
+          <>
+            <div className="view-region">
+              <img
+                id="container-6-img-1"
+                className="main-page-gif-image container-6-img"
+                src={oldFasionImages?.finish?.images[0]}
+                alt=""
+                style={scrollEffectContainer6(
+                  "container-6-img-1",
+                  scrollPercent
+                )}
+              />
             </div>
           </>
         )}

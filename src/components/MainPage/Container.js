@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef, useContext } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./mainPage.css";
 import { useViewRegion } from "./MainPageReducer/ViewRegionContext.js";
 
 function Container(props) {
   const { containerIndex, children } = props;
   const [scrollPercent, setScrollPercent] = useState(0);
-  const [{ oldFasionImages, viewRegion }, dispatch] = useViewRegion();
+  const [{ oldFasionImages, viewRegion }] = useViewRegion();
   const container = useRef(null);
 
   useEffect(() => {
