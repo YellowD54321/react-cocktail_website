@@ -14,6 +14,7 @@
     position: relative;
     margin-top: calc(-1 * var(--header-height));
     margin-top: -100vh;
+    overflow-x: clip;
   }
   
   /* container 1 */
