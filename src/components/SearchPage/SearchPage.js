@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import CocktailList from "../CocktailList/CocktailList.js";
 import { useStateValue } from "../Reducer/StateProvider";
 import NoSearchResult from "./NoSearchResult";
+import { useNavigate } from "react-router-dom";
 
 function SearchPage() {
+  const navigate = useNavigate();
   const [{ searchText, searchBtnCount }, dispatch] = useStateValue();
   const [cocktail, setCocktail] = useState([
     {
@@ -18,12 +20,18 @@ function SearchPage() {
   ]);
   const cocktailBasicApiUrl = "https://www.thecocktaildb.com/api/json/v1/1/";
   const cocktailRandomApiUrl = `https://www.thecocktaildb.com/api/json/v1/1/random.php`;
-  const searchTextForAPI = searchText
-    ? "search.php?s=" + searchText
-    : "search.php?s=";
+  const url = new URL(document.location);
+  const urlKeyWords = url.search.replace(/[?=q]/gi, "").replace(/[+]/gi, " ");
+  const searchTextForAPI = urlKeyWords
+    ? "search.php?s=" + urlKeyWords
+    : "search.php?s=" + searchText;
   let cocktailApiUrl = "";
 
-  if (!searchText || searchText?.toLowerCase() === "random") {
+  if (!searchText && !urlKeyWords) {
+  } else if (
+    searchText?.toLowerCase() === "random" ||
+    urlKeyWords?.toLowerCase() === "random"
+  ) {
     cocktailApiUrl = cocktailRandomApiUrl;
   } else {
     cocktailApiUrl = cocktailBasicApiUrl + searchTextForAPI;
@@ -92,6 +100,21 @@ function SearchPage() {
     }
     return reslut;
   };
+
+  useEffect(() => {
+    if (urlKeyWords?.toLowerCase() === "random" && cocktail[0]?.name) {
+      const newUrl = cocktail[0].name.replace(/ /gi, "+");
+      if (newUrl) {
+        dispatch({
+          type: "SEARCH_TEXT",
+          item: {
+            text: "",
+          },
+        });
+        navigate(`/searchPage/search?q=${newUrl}`);
+      }
+    }
+  }, [cocktail]);
 
   if (!cocktail) {
     searchResult = (

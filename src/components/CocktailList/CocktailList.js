@@ -82,13 +82,16 @@ function CocktailList(props) {
 
   const chooseCocktailByClick = (cocktail) => {
     const cocktailInfo = cocktail;
+    const cocktailName = cocktail.name.replace(/ /gi, "+");
+    console.log("cocktail");
+    console.log(cocktail);
     dispatch({
       type: "COCKTAIL_INFO",
       item: {
         cocktailInfo: cocktailInfo,
       },
     });
-    navigate("/productPage");
+    navigate(`/productPage/search?q=${cocktailName}`);
   };
 
   return <div className={props.class}>{eachCocktail}</div>;

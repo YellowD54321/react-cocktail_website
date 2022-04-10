@@ -166,14 +166,14 @@
     opacity: 1;
   }
 
-  @media screen and (min-width: 1025px) {
+  @media screen and (min-width: 1024px) {
     .header-account-small-navBar {
       display: none;
       visibility: hidden;
     }
   }
   
-  @media screen and (max-width: 1024px) and (min-width: 426px) {
+  @media screen and (max-width: 1023px) and (min-width: 426px) {
     .header-search-bar {
       width: 60px;
     }

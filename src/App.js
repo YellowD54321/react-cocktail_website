@@ -19,6 +19,10 @@ import SignUpPage from "./components/LoginPage/SignUpPage.js";
 import FavouritePage from "./components/FavouritePage/FavouritePage.js";
 
 function App() {
+  let params = new URL(document.location);
+  console.log("params");
+  console.log(params);
+
   const WholeMainPage = () => {
     return (
       <div>
@@ -100,14 +104,10 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<WholeMainPage />}></Route>
-        <Route exact path="/searchPage" element={<WholeSearchPage />}></Route>
-        <Route exact path="/productPage" element={<WholeProductPage />}></Route>
-        <Route
-          exact
-          path="/favouritePage"
-          element={<WholeFavouritePage />}
-        ></Route>
+        <Route path="/" element={<WholeMainPage />}></Route>
+        <Route path="/searchPage/*" element={<WholeSearchPage />}></Route>
+        <Route path="/productPage/*" element={<WholeProductPage />}></Route>
+        <Route path="/favouritePage" element={<WholeFavouritePage />}></Route>
         <Route path="/loginPage" element={<LoginPage />}></Route>
         <Route path="/signUpPage" element={<SignUpPage />}></Route>
       </Routes>

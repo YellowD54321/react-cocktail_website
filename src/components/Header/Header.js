@@ -20,16 +20,19 @@ function Header() {
   }, []);
 
   const switchOpacity = () => {
-    if (window.scrollY >= 100) {
-      setStyleOpacity(0.7);
-    } else {
-      setStyleOpacity(1);
+    if (window.outerWidth >= 1024) {
+      if (window.scrollY >= 100) {
+        setStyleOpacity(0.7);
+      } else {
+        setStyleOpacity(1);
+      }
     }
   };
 
   const startSearching = () => {
     const searchInput = searchBarRef?.current?.value;
     const btnCounter = searchBtnCount >= 0 ? searchBtnCount + 1 : 0;
+    const searchInputUrl = searchInput.replace(/ /gi, "+");
 
     dispatch({
       type: "SEARCH_TEXT",
@@ -38,7 +41,7 @@ function Header() {
         btnCounter: btnCounter,
       },
     });
-    navigate("/searchPage");
+    navigate(`/searchPage/search?q=${searchInputUrl}`);
   };
 
   function searchBarOnKeyUp(event) {
@@ -49,7 +52,7 @@ function Header() {
 
   function startRandomDice() {
     const btnCounter = searchBtnCount >= 0 ? searchBtnCount + 1 : 0;
-    navigate("/searchPage");
+    navigate("/searchPage/search?=random");
     dispatch({
       type: "SEARCH_TEXT",
       item: {

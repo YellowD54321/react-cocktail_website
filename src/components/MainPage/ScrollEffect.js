@@ -1,6 +1,7 @@
 export function ScrollEffect() {
   //container 1
   function scrollEffectContainer1(elementId, scrollPercent) {
+    if (screenWidthTooSmall()) return;
     const imgOne = () => {
       const DEMARCATION_OUT_START = 0.64;
       const DEMARCATION_OUT_END = 0.91;
@@ -55,199 +56,7 @@ export function ScrollEffect() {
   }
   //container 2
   function scrollEffectContainer2(elementId, scrollPercent) {
-    //Blur Edge
-    const blurEdgeOne = () => {
-      //Start
-      const DEMARCATION_IN_START = -0.12;
-      const DEMARCATION_IN_END = 0.07;
-      let styleOpacity = 0;
-      let { styleVertical, styleHorizontal } = effectPositionChangeFromOutSide(
-        scrollPercent,
-        DEMARCATION_IN_START,
-        DEMARCATION_IN_END,
-        -500,
-        500
-      );
-      if (styleVertical > 0) styleVertical = 0;
-      if (styleHorizontal < 0) styleHorizontal = 0;
-      //End
-      const DEMARCATION_OUT_START = 0.8;
-      const DEMARCATION_OUT_END = 1;
-      let styleScale = 1;
-      if (styleScale >= 2) styleScale = 2;
-      if (scrollPercent >= DEMARCATION_OUT_START) {
-        styleScale =
-          proportionWithContainer(
-            scrollPercent,
-            DEMARCATION_OUT_START,
-            DEMARCATION_OUT_END
-          ) + 1;
-        styleOpacity =
-          1 -
-          proportionWithContainer(
-            scrollPercent,
-            DEMARCATION_OUT_START,
-            DEMARCATION_OUT_END
-          );
-      } else {
-        styleScale = 1;
-        styleOpacity = proportionWithContainer(
-          scrollPercent,
-          DEMARCATION_IN_START,
-          DEMARCATION_IN_END
-        );
-      }
-      return {
-        top: styleVertical,
-        right: styleHorizontal,
-        opacity: styleOpacity,
-        transform: `scale(${styleScale}, ${styleScale})`,
-      };
-    };
-    const blurEdgeTwo = () => {
-      //Start
-      const DEMARCATION_IN_START = -0.05;
-      const DEMARCATION_IN_END = 0.21;
-      let styleOpacity = 0;
-      let { styleVertical, styleHorizontal } = effectPositionChangeFromOutSide(
-        scrollPercent,
-        DEMARCATION_IN_START,
-        DEMARCATION_IN_END,
-        -500,
-        -500
-      );
-      if (styleVertical > 0) styleVertical = 0;
-      if (styleHorizontal > 0) styleHorizontal = 0;
-      //End
-      const DEMARCATION_OUT_START = 0.8;
-      const DEMARCATION_OUT_END = 1;
-      let styleScale = 1;
-      if (styleScale >= 2) styleScale = 2;
-      if (scrollPercent >= DEMARCATION_OUT_START) {
-        styleScale =
-          proportionWithContainer(
-            scrollPercent,
-            DEMARCATION_OUT_START,
-            DEMARCATION_OUT_END
-          ) + 1;
-        styleOpacity =
-          1 -
-          proportionWithContainer(
-            scrollPercent,
-            DEMARCATION_OUT_START,
-            DEMARCATION_OUT_END
-          );
-      } else {
-        styleScale = 1;
-        styleOpacity = proportionWithContainer(
-          scrollPercent,
-          DEMARCATION_IN_START,
-          DEMARCATION_IN_END
-        );
-      }
-      return {
-        top: styleVertical,
-        right: styleHorizontal,
-        opacity: styleOpacity,
-        transform: `scale(${styleScale}, ${styleScale})`,
-      };
-    };
-    const blurEdgeThree = () => {
-      //Start
-      const DEMARCATION_IN_START = 0.17;
-      const DEMARCATION_IN_END = 0.44;
-      let styleOpacity = 1;
-      let { styleVertical, styleHorizontal } = effectPositionChangeFromOutSide(
-        scrollPercent,
-        DEMARCATION_IN_START,
-        DEMARCATION_IN_END,
-        500,
-        500
-      );
-      if (styleVertical < 0) styleVertical = 0;
-      if (styleHorizontal < 0) styleHorizontal = 0;
-      //End
-      const DEMARCATION_OUT_START = 0.8;
-      const DEMARCATION_OUT_END = 1;
-      let styleScale = 1;
-      if (styleScale >= 2) styleScale = 2;
-      if (scrollPercent >= DEMARCATION_OUT_START) {
-        styleScale =
-          proportionWithContainer(
-            scrollPercent,
-            DEMARCATION_OUT_START,
-            DEMARCATION_OUT_END
-          ) + 1;
-        styleOpacity =
-          1 -
-          proportionWithContainer(
-            scrollPercent,
-            DEMARCATION_OUT_START,
-            DEMARCATION_OUT_END
-          );
-      } else {
-        styleScale = 1;
-        styleOpacity = proportionWithContainer(
-          scrollPercent,
-          DEMARCATION_IN_START,
-          DEMARCATION_IN_END
-        );
-      }
-      return {
-        top: styleVertical,
-        right: styleHorizontal,
-        opacity: styleOpacity,
-        transform: `scale(${styleScale}, ${styleScale})`,
-      };
-    };
-    const blurEdgeFour = () => {
-      //Start
-      const DEMARCATION_IN_START = 0.39;
-      const DEMARCATION_IN_END = 0.61;
-      let styleOpacity = 0;
-      let { styleVertical, styleHorizontal } = effectPositionChangeFromOutSide(
-        scrollPercent,
-        DEMARCATION_IN_START,
-        DEMARCATION_IN_END,
-        500,
-        -500
-      );
-      if (styleVertical < 0) styleVertical = 0;
-      if (styleHorizontal > 0) styleHorizontal = 0;
-      //End
-      const DEMARCATION_OUT_START = 0.8;
-      const DEMARCATION_OUT_END = 1;
-      let styleScale = 1;
-      if (styleScale >= 2) styleScale = 2;
-      if (scrollPercent >= DEMARCATION_OUT_START) {
-        styleScale =
-          proportionWithContainer(
-            scrollPercent,
-            DEMARCATION_OUT_START,
-            DEMARCATION_OUT_END
-          ) + 1;
-        styleOpacity =
-          1 -
-          proportionWithContainer(
-            scrollPercent,
-            DEMARCATION_OUT_START,
-            DEMARCATION_OUT_END
-          );
-      } else {
-        styleScale = 1;
-        styleOpacity = proportionWithContainer(
-          scrollPercent,
-          DEMARCATION_IN_START,
-          DEMARCATION_IN_END
-        );
-      }
-      return {
-        top: styleVertical,
-        right: styleHorizontal,
-        opacity: styleOpacity,
-        transform: `scale(${styleScale}, ${styleScale})`,
-      };
-    };
+    if (screenWidthTooSmall()) return;
     //Image
     const imgOne = () => {
       const DEMARCATION_IN_START = -0.12;
@@ -688,6 +497,7 @@ export function ScrollEffect() {
   }
   //container 3
   function scrollEffectContainer3(elementId, scrollPercent) {
+    if (screenWidthTooSmall()) return;
     const imgOne = () => {
       const DEMARCATION_IN_START = 0;
       const DEMARCATION_IN_END = 0.33;
@@ -755,6 +565,7 @@ export function ScrollEffect() {
   }
   //container 4
   function scrollEffectContainer4(elementId, scrollPercent) {
+    if (screenWidthTooSmall()) return;
     const imgOne = () => {
       const DEMARCATION_IN_START = -0.09;
       const DEMARCATION_IN_END = 0.13;
@@ -809,6 +620,7 @@ export function ScrollEffect() {
   }
   //container 5
   function scrollEffectContainer5(elementId, scrollPercent) {
+    if (screenWidthTooSmall()) return;
     const imgOne = () => {
       const DEMARCATION_IN_START = 0.04;
       const DEMARCATION_IN_END = 0.29;
@@ -870,6 +682,7 @@ export function ScrollEffect() {
   }
   //container 6
   function scrollEffectContainer6(elementId, scrollPercent) {
+    if (screenWidthTooSmall()) return;
     const imgOne = () => {
       const DEMARCATION_IN_START = -0.04;
       const DEMARCATION_IN_END = 0.48;
@@ -963,6 +776,9 @@ export function ScrollEffect() {
     const imgFinish = () => {};
 
     const imgSugarCube = () => {
+      if (screenWidthTooSmall()) {
+        return oldFasionImages?.sugarCube?.images[5];
+      }
       const DEMARCATION_IN_START = -0.12;
       const DEMARCATION_IN_END = 0.8;
       const imgAmount = oldFasionImages?.sugarCube?.images.length - 1;
@@ -976,6 +792,11 @@ export function ScrollEffect() {
     };
 
     const imgBitter = () => {
+      if (screenWidthTooSmall()) {
+        return oldFasionImages?.bitter?.images[
+          oldFasionImages?.bitter?.images.length - 1
+        ];
+      }
       const DEMARCATION_IN_START = -0.05;
       const DEMARCATION_IN_END = 0.8;
       const imgAmount = oldFasionImages?.bitter?.images.length - 1;
@@ -989,6 +810,9 @@ export function ScrollEffect() {
     };
 
     const imgCrush = () => {
+      if (screenWidthTooSmall()) {
+        return oldFasionImages?.crush?.images[43];
+      }
       const DEMARCATION_IN_START = 0.17;
       const DEMARCATION_IN_END = 0.8;
       const imgAmount = oldFasionImages?.crush?.images.length - 1;
@@ -1002,6 +826,9 @@ export function ScrollEffect() {
     };
 
     const imgBourbon = () => {
+      if (screenWidthTooSmall()) {
+        return oldFasionImages?.bourbon?.images[85];
+      }
       const DEMARCATION_IN_START = 0.17;
       const DEMARCATION_IN_END = 0.8;
       const imgAmount = oldFasionImages?.bourbon?.images.length - 1;
@@ -1015,6 +842,9 @@ export function ScrollEffect() {
     };
 
     const imgIceCube = () => {
+      if (screenWidthTooSmall()) {
+        return oldFasionImages?.iceCube?.images[47];
+      }
       const DEMARCATION_IN_START = 0;
       const DEMARCATION_IN_END = 0.9;
       const imgAmount = oldFasionImages?.iceCube?.images.length - 1;
@@ -1028,6 +858,9 @@ export function ScrollEffect() {
     };
 
     const imgPour = () => {
+      if (screenWidthTooSmall()) {
+        return oldFasionImages?.pour?.images[63];
+      }
       const DEMARCATION_IN_START = 0;
       const DEMARCATION_IN_END = 0.9;
       const imgAmount = oldFasionImages?.pour?.images.length - 1;
@@ -1041,6 +874,9 @@ export function ScrollEffect() {
     };
 
     const imgPeel = () => {
+      if (screenWidthTooSmall()) {
+        return oldFasionImages?.peel?.images[32];
+      }
       const DEMARCATION_IN_START = 0;
       const DEMARCATION_IN_END = 0.8;
       const imgAmount = oldFasionImages?.peel?.images.length - 1;
@@ -1096,6 +932,10 @@ export function ScrollEffect() {
       }
       return imageClip;
     }
+  }
+
+  function screenWidthTooSmall() {
+    return window.outerWidth < 1024;
   }
 
   return {

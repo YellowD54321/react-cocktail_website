@@ -1,10 +1,87 @@
 import "./productPage.css";
+import React, { useState, useEffect } from "react";
 import { useStateValue } from "../Reducer/StateProvider";
+import { useNavigate } from "react-router-dom";
 
 function ProductPage() {
-  const [{ cocktailInfo }] = useStateValue();
+  const [{ cocktailInfo }, dispatch] = useStateValue();
+  const navigate = useNavigate();
+  let cocktail = {};
+  const url = new URL(document.location);
+  const urlKeyWords = url.search.replace(/[?=q]/gi, "").replace(/[+]/gi, " ");
+  const searchTextForAPI =
+    "https://www.thecocktaildb.com/api/json/v1/1/search.php?s=" + urlKeyWords;
+
+  const getDataFromAPI = async (ApiUrl) => {
+    try {
+      const url = ApiUrl;
+      const res = await fetch(url);
+      const data = await res.json();
+      return data;
+    } catch (err) {
+      console.log("Error happens from cocktail API:");
+      console.error(err);
+    }
+  };
+  const getCocktailInfo = (drinks) => {
+    let reslut = [];
+    for (let i = 0; i < drinks.length; i++) {
+      let ingredients = [];
+      reslut[i] = {
+        image: drinks[i].strDrinkThumb,
+        name: drinks[i].strDrink,
+        ingredients: (() => {
+          for (let j = 1; j <= 15; j++) {
+            const ingredientName = "strIngredient" + j.toString();
+            const ingredientAmount = "strMeasure" + j.toString();
+            if (!drinks[i][ingredientName]) break;
+            ingredients.push({
+              name: drinks[i][ingredientName],
+              amount: drinks[i][ingredientAmount],
+            });
+          }
+          return ingredients;
+        })(),
+        glass: drinks[i].strGlass,
+        description: drinks[i].strInstructions,
+        category: drinks[i].strCategory,
+        id: drinks[i].idDrink,
+      };
+    }
+    return reslut;
+  };
+
+  cocktail = cocktailInfo;
+
+  useEffect(() => {
+    if (!cocktailInfo?.name) {
+      console.log("cocktailInfo?.name is false");
+      getDataFromAPI(searchTextForAPI).then((data) => {
+        const drinks = data?.drinks;
+        if (!drinks) {
+          console.log("There is no result from cocktail API.");
+          return false;
+        }
+        const cocktailInfoFromAPI = getCocktailInfo(drinks);
+        const result = cocktailInfoFromAPI.filter(
+          (drink) => drink.name.toLowerCase() === urlKeyWords.toLowerCase()
+        )[0];
+        dispatch({
+          type: "COCKTAIL_INFO",
+          item: {
+            cocktailInfo: result,
+          },
+        });
+      });
+    }
+  }, []);
+
+  if (!cocktail?.name) {
+    return null;
+  }
+
   const imgBackgroundStyle = {
-    backgroundImage: `url(${cocktailInfo.image}), url(${cocktailInfo.image})`,
+    backgroundImage: `url(${cocktail?.image}), url(${cocktail?.image})`,
     backgroundSize: "cover",
     backgroundBlendMode: "difference",
     backgroundPosition:
@@ -14,7 +91,7 @@ function ProductPage() {
   };
 
   const allIngredients = () => {
-    let ingredients = cocktailInfo.ingredients;
+    let ingredients = cocktail?.ingredients;
     const ingredientList = ingredients.map((ingredient, index) => {
       return (
         <p key={index} className="product-ingredient">
@@ -32,10 +109,10 @@ function ProductPage() {
 
   return (
     <div className="product-body">
-      <h2 className="product-name">{cocktailInfo.name}</h2>
+      <h2 className="product-name">{cocktail?.name}</h2>
       <div className="product-main">
         <div className="product-font-region">
-          <p className="product-description">{cocktailInfo.description}</p>
+          <p className="product-description">{cocktail?.description}</p>
           {allIngredients()}
         </div>
         <div className="product-image-region">
@@ -45,13 +122,13 @@ function ProductPage() {
           >
             <img
               className="product-image-pencil"
-              src={cocktailInfo.image}
+              src={cocktail?.image}
               alt="Cocktail"
             />
           </div>
           <img
             className="product-image-color"
-            src={cocktailInfo.image}
+            src={cocktail?.image}
             alt="Cocktail"
           />
         </div>
